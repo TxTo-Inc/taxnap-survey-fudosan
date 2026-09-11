@@ -176,11 +176,11 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
   <!-- ===== Q4: 判断に迷っていること ===== -->
   <div class="slide" id="s4">
     <div class="q-number">Q4</div>
-    <div class="q-title">不動産をお持ちになるうえで、<br>いま知りたいことはありますか？</div>
+    <div class="q-title">不動産をお持ちになるうえで、<br>不安なこと・気になることはありますか？</div>
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts4"></div>
     <div class="other-wrap" id="q4OtherWrap">
-      <input type="text" class="text-input" id="q4Other" placeholder="どんなことを知りたいですか？" maxlength="200">
+      <input type="text" class="text-input" id="q4Other" placeholder="どんなことが気になりますか？" maxlength="200">
     </div>
     <button class="btn-next" id="next4" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
@@ -322,21 +322,30 @@ const QUESTIONS = {
   ]},
   // 検証したい「どんな情報が欲しいか」。選択肢を見せる前に聞きたいので
   // 具体例（買い増し・ローン・売却）は並列に置き、特定の方向へ寄らないようにしている
-  q4_want: { container:'opts4', next:'next4', multi:true, opts:[
-    {emoji:'🧾', text:'確定申告のやり方・経費にできるもの',
-                 label:'確定申告のやり方', sub:'経費にできるものの線引きなど'},
-    {emoji:'📊', text:'いまの物件の収支が適正か',
-                 label:'いまの物件の収支が適正か'},
-    {emoji:'🏦', text:'ローンの借り換え・繰り上げ返済',
-                 label:'ローンのこと', sub:'借り換え・繰り上げ返済など'},
-    {emoji:'🔧', text:'修繕・設備の更新の時期や費用',
-                 label:'修繕・設備の更新', sub:'時期や費用の目安'},
-    {emoji:'📈', text:'物件を買い増すかどうか', label:'買い増しの判断'},
-    {emoji:'💰', text:'物件を売却するかどうか', label:'売却の判断'},
-    {emoji:'🏘️', text:'いまの物件の資産価値・相場',
-                 label:'資産価値・相場'},
+  // オーナーの関心を3軸で構成する。
+  //   A. 収支の実態が分からない（本当に儲かっているか・節税になっているか）
+  //   B. 費用が上がる（修繕・管理費・金利）
+  //   C. 収入が不安定になる（空室・退去・家賃下落）
+  // 「知りたいこと」ではなく「不安・気になること」を聞く。目的は課題解決であり、
+  // 情報ニーズは手段に過ぎないため。買い増し・売却は関心事ではあるが困りごとではないので外した。
+  q4_worry: { container:'opts4', next:'next4', multi:true, opts:[
+    // A. 収支の実態
+    {emoji:'📊', text:'本当に利益が出ているのか分からない',
+                 label:'本当に利益が出ているのか分からない', sub:'家賃収入と支出を差し引いた実態'},
+    {emoji:'🧾', text:'節税になっているのか分からない',
+                 label:'節税になっているのか分からない', sub:'思っていたほど効果がない気がする'},
+    // B. 費用が上がる
+    {emoji:'🔧', text:'修繕費・管理費や修繕積立金が上がること',
+                 label:'修繕費・管理費が上がること', sub:'大規模修繕や積立金の値上げ'},
+    {emoji:'🏦', text:'金利が上がって返済額が増えること',
+                 label:'金利が上がって返済額が増えること', sub:'ローンの残高や完済時期も含む'},
+    // C. 収入が不安定になる
+    {emoji:'🚪', text:'空室や退去で家賃収入が止まること',
+                 label:'空室や退去で家賃収入が止まること', sub:'次の入居者が決まるか'},
+    {emoji:'📉', text:'家賃が下がっていくこと',
+                 label:'家賃が下がっていくこと', sub:'築年数の経過による下落'},
     {emoji:'✏️', text:'その他', isOther:true},
-    {emoji:'🙅', text:'特にない', exclusive:true}
+    {emoji:'🙆', text:'特に不安なことはない', exclusive:true}
   ]},
   // 事実のみを聞く。評価（迷惑か否か）はQ7まで持ち込まない
   q5_freq: { container:'opts5', next:'next5', opts:[
@@ -449,7 +458,7 @@ function toggleMulti(key, q, wrap, btn, opt) {
   else answers[key] = answers[key].filter(v => v !== opt.text);
 
   // 「その他」が選ばれているときだけ自由記述を出す
-  if (key === 'q4_want') {
+  if (key === 'q4_worry') {
     const otherOn = !!wrap.querySelector('.opt-btn[data-is-other="1"].selected');
     document.getElementById('q4OtherWrap').classList.toggle('show', otherOn);
     // 外したら記述も消す（選択されていないのに本文だけ残るのを防ぐ）
@@ -528,8 +537,8 @@ function submitSurvey() {
     q1_units:      answers.q1_units || '',
     q2_type:       (answers.q2_type || []).join(', '),
     q3_method:     answers.q3_method || '',
-    q4_want:       (answers.q4_want || []).join(', '),
-    q4_want_free:  (document.getElementById('q4Other').value || '').trim(),
+    q4_worry:      (answers.q4_worry || []).join(', '),
+    q4_worry_free: (document.getElementById('q4Other').value || '').trim(),
     q5_freq:       answers.q5_freq || '',
     q6_action:     (answers.q6_action || []).join(', '),
     q7_pref:       answers.q7_pref || '',
