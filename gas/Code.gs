@@ -28,13 +28,15 @@ var COLUMNS = [
   { key: 'email',        label: 'メールアドレス' },
   { key: 'q1_units',     label: 'Q1 保有戸数' },
   { key: 'q2_type',      label: 'Q2 物件種別(複数)' },
+  { key: 'q2_type_free', label: 'Q2 その他(自由記述)' },
   { key: 'q3_method',    label: 'Q3 申告方法' },
   { key: 'q4_worry',      label: 'Q4 不安なこと(複数)' },
   { key: 'q4_worry_free', label: 'Q4 その他(自由記述)' },
   { key: 'q5_freq',       label: 'Q5 連絡の頻度' },
-  { key: 'q6_income',     label: 'Q6 年収の連携粒度' },
-  { key: 'q7_loan',       label: 'Q7 借入残高の連携粒度' },
-  { key: 'q8_interview',  label: 'Q8 取材協力' },
+  { key: 'q6_helped',     label: 'Q6 担当が助かったこと(複数)' },
+  { key: 'q7_income',     label: 'Q7 年収の連携粒度' },
+  { key: 'q8_loan',       label: 'Q8 借入残高の連携粒度' },
+  { key: 'q9_interview',  label: 'Q9 取材協力' },
   { key: 'user_agent',   label: 'ブラウザ情報' }
 ];
 
