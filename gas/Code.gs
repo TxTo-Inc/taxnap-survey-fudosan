@@ -31,11 +31,9 @@ var COLUMNS = [
   { key: 'q3_method',    label: 'Q3 申告方法' },
   { key: 'q4_worry',      label: 'Q4 不安なこと(複数)' },
   { key: 'q4_worry_free', label: 'Q4 その他(自由記述)' },
-  { key: 'q5_freq',      label: 'Q5 連絡の頻度' },
-  { key: 'q6_welcome',   label: 'Q6 受け取ってよい連絡(複数)' },
-  { key: 'q7_concern',   label: 'Q7 連絡で気になる点(複数)' },
-  { key: 'q8_share',     label: 'Q8 伝えてよい情報(複数)' },
-  { key: 'q9_interview', label: 'Q9 取材協力' },
+  { key: 'q5_freq',       label: 'Q5 連絡の頻度' },
+  { key: 'q6_share',      label: 'Q6 伝えてよい情報(複数)' },
+  { key: 'q7_interview',  label: 'Q7 取材協力' },
   { key: 'user_agent',   label: 'ブラウザ情報' }
 ];
 
