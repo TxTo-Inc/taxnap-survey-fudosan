@@ -112,7 +112,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       <div class="intro-emoji">🏠</div>
       <div class="intro-bubble">オーナーの皆さまへ</div>
       <h1 class="intro-headline">不動産をお持ちの方への<br>アンケート</h1>
-      <p class="intro-sub">かんたん6問・約2分<br>今後の機能づくりの参考にさせてください</p>
+      <p class="intro-sub">かんたん7問・約2分<br>今後の機能づくりの参考にさせてください</p>
     </div>
 
     <div class="steps">
@@ -123,7 +123,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       </div>
       <div class="step-row">
         <span class="step-num">2</span>
-        <span class="step-text">お困りごと・不動産会社との関わりを3問</span>
+        <span class="step-text">お困りごと・不動産会社との関わりを4問</span>
         <span class="step-badge">1分</span>
       </div>
       <div class="step-row">
@@ -197,18 +197,18 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q6: データ連携（シチュエーション提示型） ===== -->
+  <!-- ===== Q6: 年収の連携粒度 ===== -->
   <div class="slide" id="s6">
     <div class="q-number">Q6</div>
-    <div class="q-title">担当の方に、どこまでお伝えして<br>もよいと思われますか？</div>
-    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="q-title">年収について、どの程度なら<br>お伝えしてもよいと思われますか？</div>
+    <div class="q-subtitle">最も近いもの1つ</div>
     <div class="q-hint">
       💡 <b>こんな場面を想像してください</b><br>
       ご自身の状況に合った物件が出たときに、担当の方から<br>
       ご紹介が届く——という仕組みを考えています。<br><br>
-      そのためには、いまのご状況を担当の方が把握している<br>
-      必要があります。常に見られるのではなく、<br>
-      <b>ご紹介のためだけに使われる</b>としたら、いかがでしょうか。<br><br>
+      新しくローンを組めるかどうかの目安になるため、<br>
+      <b>年に1回、確定申告のあとに</b>お伝えするとしたら、<br>
+      どの程度までなら差し支えないでしょうか。<br><br>
       ※ 実際にお伝えするかは、この場で決まるものではありません
     </div>
     <div class="options" id="opts6"></div>
@@ -216,8 +216,21 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== 取材協力可否 ===== -->
+  <!-- ===== Q7: 借入残高の連携粒度 ===== -->
   <div class="slide" id="s7">
+    <div class="q-number">Q7</div>
+    <div class="q-title">ローンの借入残高について、<br>どの程度ならお伝えできますか？</div>
+    <div class="q-subtitle">最も近いもの1つ</div>
+    <div class="q-hint">
+      💡 こちらも同じく、<b>年に1回</b>お伝えする場合としてお答えください
+    </div>
+    <div class="options" id="opts7"></div>
+    <button class="btn-next" id="next7" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== 取材協力可否 ===== -->
+  <div class="slide" id="s8">
     <div class="q-number">最後に</div>
     <div class="q-title">30分のオンライン取材に<br>ご協力いただけませんか？</div>
     <div class="q-subtitle">あてはまるもの1つ</div>
@@ -227,18 +240,18 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       💻 オンラインで30分／事前のご準備は不要です<br>
       🙅 不動産や金融商品のご案内は一切ございません
     </div>
-    <div class="options" id="opts7"></div>
+    <div class="options" id="opts8"></div>
     <div class="email-block">
       <div class="email-label" id="emailLabel">🎁 ギフト券の送付先メールアドレス</div>
       <input type="email" class="text-input" id="email" placeholder="example@mail.com" autocomplete="email">
       <div class="error-msg" id="emailErr">メールアドレスをご確認ください</div>
     </div>
-    <button class="btn-next" id="next7" disabled onclick="submitSurvey()">回答を送信する</button>
+    <button class="btn-next" id="next8" disabled onclick="submitSurvey()">回答を送信する</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
   <!-- ===== 完了 ===== -->
-  <div class="slide" id="s8">
+  <div class="slide" id="s9">
     <div class="done-card">
       <div class="done-emoji">🎉</div>
       <div class="done-title">ありがとうございました！</div>
@@ -352,24 +365,43 @@ const QUESTIONS = {
     {emoji:'💤', text:'ほとんど来ない'},
     {emoji:'🚫', text:'まったく来ない'}
   ]},
-  // シチュエーションを提示してから、渡せる情報を項目ごとに聞く。
-  // 「リアルタイムに常時連携」ではなく「条件に合う物件があるときだけ紹介してもらう」
-  // という具体的な見返りを先に示す。見返りが分からないと全員が「渡したくない」になるため。
-  // 年収・借入残高は社内設計では非開示/レンジ限定だが、ここでは実際の許容度を測る。
-  q6_share: { container:'opts6', next:'next6', multi:true, opts:[
-    {emoji:'✅', text:'確定申告が終わったかどうか', label:'確定申告が終わったかどうか'},
-    {emoji:'📊', text:'不動産の収支（利益が出ているか）', label:'不動産の収支'},
-    {emoji:'🏦', text:'ローンの借入残高', label:'ローンの借入残高'},
-    {emoji:'💰', text:'年収', label:'年収'},
-    {emoji:'🚫', text:'どれも伝えたくない', label:'どれも伝えたくない', exclusive:true}
+  // 年収と借入残高は「渡すか否か」ではなく「どの粒度なら渡せるか」を聞く。
+  // 営業が欲しい理由は「新しくローンを組めるか」の判断（3者座組設計 §3.5）で、
+  // そこには必ずしも生値は要らない。社内設計も「借入残高レンジ（250万円刻み）・
+  // 年1回更新」を想定しており、この粒度の許容度が実装の分岐点になる。
+  //
+  // 年収と借入残高は許容度が違う可能性があるため別々に聞く
+  // （社内設計では年収=常に非開示／借入残高=レンジで任意オプトイン と分けている）。
+  // 段階は 具体値 > 幅 > 変動の有無 > 聞かれたときだけ > 伝えない の5択。
+  q6_income: { container:'opts6', next:'next6', opts:[
+    {emoji:'💯', text:'具体的な金額まで伝えてよい',
+                 label:'具体的な金額まで', sub:'例: 780万円'},
+    {emoji:'📊', text:'おおよその幅なら伝えてよい',
+                 label:'おおよその幅なら', sub:'例: 700万〜800万円'},
+    {emoji:'📈', text:'増えたか変わらないか、だけなら伝えてよい',
+                 label:'増えたか・変わらないかだけ', sub:'金額は伝えない'},
+    {emoji:'💬', text:'聞かれたときに自分から伝えるならよい',
+                 label:'聞かれたときに自分から', sub:'自動では伝えない'},
+    {emoji:'🚫', text:'年収は伝えたくない', label:'伝えたくない'}
   ]},
-  q7_interview: { container:'opts7', next:'next7', opts:[
+  q7_loan: { container:'opts7', next:'next7', opts:[
+    {emoji:'💯', text:'具体的な金額まで伝えてよい',
+                 label:'具体的な金額まで', sub:'例: 1,850万円'},
+    {emoji:'📊', text:'おおよその幅なら伝えてよい',
+                 label:'おおよその幅なら', sub:'例: 1,800万〜1,900万円'},
+    {emoji:'📉', text:'減ったか変わらないか、だけなら伝えてよい',
+                 label:'減ったか・変わらないかだけ', sub:'金額は伝えない'},
+    {emoji:'💬', text:'聞かれたときに自分から伝えるならよい',
+                 label:'聞かれたときに自分から', sub:'自動では伝えない'},
+    {emoji:'🚫', text:'借入残高は伝えたくない', label:'伝えたくない'}
+  ]},
+  q8_interview: { container:'opts8', next:'next8', opts:[
     {emoji:'🙆', text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
     {emoji:'🙅', text:'協力は難しい', label:'今回は難しい'}
   ]}
 };
 
-const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8'];
+const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
 const answers = {};
 const history = [];
 let current = 's0';
@@ -411,7 +443,7 @@ function selectSingle(key, q, wrap, btn, opt) {
 
   // メール欄は常に出す（ギフト券の送付に必要なため）。
   // 取材に協力いただける方は、日程連絡にも使う旨を添える。
-  if (key === 'q7_interview') {
+  if (key === 'q8_interview') {
     document.getElementById('emailLabel').innerHTML =
       (opt.text === '協力できる')
         ? '🎁 ギフト券の送付先・日程のご連絡先'
@@ -480,12 +512,12 @@ function goBack() {
 function updateProgress() {
   const fill = document.getElementById('progressFill');
   const text = document.getElementById('progressText');
-  if (current === 's0' || current === 's8') {
-    fill.style.width = (current === 's8' ? 100 : 0) + '%';
+  if (current === 's0' || current === 's9') {
+    fill.style.width = (current === 's9' ? 100 : 0) + '%';
     text.textContent = '';
     return;
   }
-  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's8');
+  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's9');
   const done = qSteps.indexOf(current) + 1;
   fill.style.width = (done / qSteps.length * 100) + '%';
   text.textContent = `${done} / ${qSteps.length}`;
@@ -497,7 +529,7 @@ function isValidEmail(v) {
 }
 
 function submitSurvey() {
-  const wantsInterview = (answers.q7_interview === '協力できる');
+  const wantsInterview = (answers.q8_interview === '協力できる');
   const emailEl = document.getElementById('email');
   const email = (emailEl.value || '').trim();
 
@@ -522,8 +554,9 @@ function submitSurvey() {
     q4_worry:      (answers.q4_worry || []).join(', '),
     q4_worry_free: (document.getElementById('q4Other').value || '').trim(),
     q5_freq:       answers.q5_freq || '',
-    q6_share:      (answers.q6_share || []).join(', '),
-    q7_interview:  answers.q7_interview || '',
+    q6_income:     answers.q6_income || '',
+    q7_loan:       answers.q7_loan || '',
+    q8_interview:  answers.q8_interview || '',
     user_agent: navigator.userAgent
   };
 
@@ -541,7 +574,7 @@ function submitSurvey() {
 
   // 送信可否にかかわらず完了画面へ進める（回答者を止めない）
   document.getElementById('interviewNote').style.display = wantsInterview ? '' : 'none';
-  showSlide('s8');
+  showSlide('s9');
 }
 
 /* ===== 初期化 ===== */

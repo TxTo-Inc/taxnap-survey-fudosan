@@ -32,8 +32,9 @@ var COLUMNS = [
   { key: 'q4_worry',      label: 'Q4 不安なこと(複数)' },
   { key: 'q4_worry_free', label: 'Q4 その他(自由記述)' },
   { key: 'q5_freq',       label: 'Q5 連絡の頻度' },
-  { key: 'q6_share',      label: 'Q6 伝えてよい情報(複数)' },
-  { key: 'q7_interview',  label: 'Q7 取材協力' },
+  { key: 'q6_income',     label: 'Q6 年収の連携粒度' },
+  { key: 'q7_loan',       label: 'Q7 借入残高の連携粒度' },
+  { key: 'q8_interview',  label: 'Q8 取材協力' },
   { key: 'user_agent',   label: 'ブラウザ情報' }
 ];
 
