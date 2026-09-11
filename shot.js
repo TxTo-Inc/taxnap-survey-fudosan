@@ -23,7 +23,7 @@ const { chromium } = require('playwright');
   await shot('4worry');
   await p.fill('#q4Other','管理組合の修繕計画'); await next();
   await shot('5freq');    await pick('opts5','数ヶ月に1回程度'); await next();
-  await shot('6share');   await pick('opts6','保有している物件の数'); await next();
+  await shot('6share');   await pick('opts6','確定申告が終わったかどうか'); await next();
   await shot('7interview');
   await pick('opts7','協力できる');
   await p.fill('#email','test@example.com');

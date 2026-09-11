@@ -204,7 +204,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="q-hint">
       💡 <b>こんな場面を想像してください</b><br>
-      ご自身の状況に合った物件が出たときだけ、担当の方から<br>
+      ご自身の状況に合った物件が出たときに、担当の方から<br>
       ご紹介が届く——という仕組みを考えています。<br><br>
       そのためには、いまのご状況を担当の方が把握している<br>
       必要があります。常に見られるのではなく、<br>
@@ -357,7 +357,6 @@ const QUESTIONS = {
   // という具体的な見返りを先に示す。見返りが分からないと全員が「渡したくない」になるため。
   // 年収・借入残高は社内設計では非開示/レンジ限定だが、ここでは実際の許容度を測る。
   q6_share: { container:'opts6', next:'next6', multi:true, opts:[
-    {emoji:'🏠', text:'保有している物件の数', label:'保有している物件の数'},
     {emoji:'✅', text:'確定申告が終わったかどうか', label:'確定申告が終わったかどうか'},
     {emoji:'📊', text:'不動産の収支（利益が出ているか）', label:'不動産の収支'},
     {emoji:'🏦', text:'ローンの借入残高', label:'ローンの借入残高'},
