@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>不動産オーナーアンケート | タックスナップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--brand:#27BA74;--brand-light:#e8f8ef;--brand-dark:#1e9a5e;--bg:#f8faf9;--text:#1a1a1a;--text-sub:#666;--radius:12px}
+html{font-size:16px}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;display:flex;flex-direction:column;-webkit-tap-highlight-color:transparent}
+
+.progress-wrap{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;padding:12px 20px 10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.progress-bar{height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--brand);border-radius:3px;transition:width .4s ease}
+.progress-text{font-size:.75rem;color:var(--text-sub);margin-top:6px;text-align:right}
+
+.survey-container{flex:1;display:flex;align-items:center;justify-content:center;padding:80px 20px 40px}
+.slide{display:none;width:100%;max-width:480px;animation:slideIn .35s ease}
+.slide.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+.logo-img{height:26px;width:auto;display:block;margin:0 auto 20px}
+.intro-note{font-size:.78rem;color:var(--text-sub);line-height:1.7;background:#fff;border:1px solid #e5e7eb;border-radius:var(--radius);padding:12px 14px;margin-bottom:22px}
+
+.intro-card{background:#fff;border-radius:20px;padding:24px 20px 28px;text-align:center;position:relative;overflow:hidden;margin-bottom:14px}
+.intro-card::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#f0fbf5 0%,#fff 62%);z-index:0}
+.intro-card > *{position:relative;z-index:1}
+.intro-deco{position:absolute;font-size:1.1rem;opacity:.5;z-index:1}
+.intro-deco-1{top:14px;left:16px}
+.intro-deco-2{top:14px;right:16px}
+.intro-emoji{font-size:3.4rem;line-height:1;margin-bottom:10px}
+.intro-bubble{display:inline-block;background:#fff;border-radius:16px;padding:8px 18px;font-size:.9rem;font-weight:700;color:var(--brand-dark);box-shadow:0 2px 10px rgba(0,0,0,.08);position:relative;margin-bottom:14px}
+.intro-bubble::after{content:'';position:absolute;bottom:-6px;left:50%;margin-left:-6px;width:12px;height:12px;background:#fff;transform:rotate(45deg)}
+.intro-headline{font-size:1.55rem;font-weight:800;line-height:1.4;margin-bottom:8px;letter-spacing:.01em;word-break:auto-phrase}
+.intro-sub{font-size:.9rem;color:var(--text-sub);line-height:1.8}
+
+.steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.step-row{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.step-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:var(--brand);color:#fff;font-size:.85rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step-text{flex:1;font-size:.93rem;font-weight:500;text-align:left;line-height:1.5}
+.step-badge{flex-shrink:0;font-size:.75rem;font-weight:700;color:var(--brand-dark);background:var(--brand-light);padding:3px 10px;border-radius:20px}
+.step-icon{flex-shrink:0;font-size:1.1rem}
+
+.q-number{font-size:.8rem;font-weight:700;color:var(--brand);margin-bottom:6px}
+.q-title{font-size:1.15rem;font-weight:700;line-height:1.6;margin-bottom:6px;word-break:auto-phrase}
+.q-subtitle{font-size:.8rem;color:var(--text-sub);margin-bottom:20px;word-break:auto-phrase}
+.q-hint{font-size:.78rem;color:var(--text-sub);line-height:1.7;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;margin-bottom:16px;word-break:auto-phrase}
+
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 18px;border:2px solid #e5e7eb;border-radius:var(--radius);background:#fff;font-size:.95rem;font-family:inherit;color:var(--text);cursor:pointer;transition:all .15s}
+.opt-btn:active{transform:scale(.98)}
+.opt-btn.selected{border-color:var(--brand);background:var(--brand-light);color:var(--brand-dark);font-weight:500}
+.opt-btn .opt-emoji{font-size:1.2rem;flex-shrink:0}
+.opt-btn .opt-label{flex:1;line-height:1.5;word-break:auto-phrase;overflow-wrap:anywhere}
+.opt-btn .opt-sub{display:block;font-size:.76rem;color:var(--text-sub);font-weight:400;margin-top:3px;line-height:1.5}
+.opt-btn.selected .opt-sub{color:#4a8a67}
+.opt-btn .opt-check{width:20px;height:20px;border:2px solid #d0d0d0;border-radius:50%;margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.opt-btn.selected .opt-check{border-color:var(--brand);background:var(--brand)}
+.opt-btn.selected .opt-check::after{content:'✓';color:#fff;font-size:.7rem;font-weight:700}
+/* 複数選択は四角いチェックにして、単一選択と見分けられるようにする */
+.opt-btn.multi .opt-check{border-radius:5px}
+
+.email-block{margin-top:18px}
+.email-label{font-size:.85rem;font-weight:700;margin-bottom:8px}
+.other-wrap{display:none;margin-top:10px}
+.other-wrap.show{display:block}
+.text-input{width:100%;padding:14px 16px;border:2px solid #e5e7eb;border-radius:var(--radius);font-size:1rem;font-family:inherit;background:#fff;transition:border-color .2s}
+.text-input:focus{outline:none;border-color:var(--brand)}
+textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
+.input-error{border-color:#e74c3c !important}
+.error-msg{font-size:.8rem;color:#e74c3c;margin-top:6px;display:none}
+.error-msg.show{display:block}
+
+.btn-next{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:24px;padding:14px 32px;background:var(--brand);color:#fff;border:none;border-radius:var(--radius);font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;width:100%}
+.btn-next:active{background:var(--brand-dark);transform:scale(.98)}
+.btn-next:disabled{background:#ccc;color:#888;cursor:not-allowed;transform:none}
+.btn-back{display:flex;align-items:center;justify-content:center;margin-top:10px;padding:10px;background:none;border:none;color:var(--text-sub);font-size:.85rem;font-family:inherit;cursor:pointer;width:100%}
+
+.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.card-title{font-size:.95rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+
+/* 完了画面 */
+.done-card{background:#fff;border-radius:20px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;margin-bottom:14px}
+.done-card::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#f0fbf5 0%,#fff 62%);z-index:0}
+.done-card > *{position:relative;z-index:1}
+.done-emoji{font-size:3.4rem;line-height:1;margin-bottom:12px}
+.done-title{font-size:1.4rem;font-weight:800;margin-bottom:10px}
+.done-sub{font-size:.9rem;color:var(--text-sub);line-height:1.8}
+.gift-box{background:var(--brand-light);border:1.5px solid #cdebda;border-radius:12px;padding:14px;font-size:.85rem;line-height:1.75;margin-top:16px;text-align:left}
+.gift-box b{color:var(--brand-dark)}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-text" id="progressText"></div>
+</div>
+
+<div class="survey-container">
+
+  <!-- ===== Slide 0: Intro ===== -->
+  <div class="slide active" id="s0">
+    <img src="taxnap_logo.png" alt="タックスナップ" class="logo-img">
+    <div class="intro-card">
+      <span class="intro-deco intro-deco-1">🏢</span>
+      <span class="intro-deco intro-deco-2">📋</span>
+      <div class="intro-emoji">🏠</div>
+      <div class="intro-bubble">オーナーの皆さまへ</div>
+      <h1 class="intro-headline">不動産をお持ちの方への<br>アンケート</h1>
+      <p class="intro-sub">かんたん7問・約2分<br>今後の機能づくりの参考にさせてください</p>
+    </div>
+
+    <div class="steps">
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <span class="step-text">保有状況と申告方法を3問</span>
+        <span class="step-badge">40秒</span>
+      </div>
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <span class="step-text">お困りごと・不動産会社との関わりを4問</span>
+        <span class="step-badge">1分</span>
+      </div>
+      <div class="step-row">
+        <span class="step-num">3</span>
+        <span class="step-text">回答するとAmazonギフト券500円分</span>
+        <span class="step-icon">🎁</span>
+      </div>
+    </div>
+
+    <div class="intro-note">
+      ✅ 正解のある質問ではありません。ありのままをお答えください<br>
+      ✅ 「特にない」「困っていない」という回答も歓迎です<br>
+      ✅ ご回答は今後のサービス改善のみに使用します
+    </div>
+
+    <button class="btn-next" onclick="goNext()">アンケートを始める 🚀</button>
+  </div>
+
+  <!-- ===== Q1: 保有戸数 ===== -->
+  <div class="slide" id="s1">
+    <div class="q-number">Q1</div>
+    <div class="q-title">現在、賃貸用として<br>保有されている物件は何戸ですか？</div>
+    <div class="q-subtitle">あてはまるもの1つ</div>
+    <div class="q-hint">💡 ご自身がお住まいの物件は除いてお答えください</div>
+    <div class="options" id="opts1"></div>
+    <button class="btn-next" id="next1" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q2: 物件種別 ===== -->
+  <div class="slide" id="s2">
+    <div class="q-number">Q2</div>
+    <div class="q-title">お持ちの物件の種別を<br>教えてください</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="options" id="opts2"></div>
+    <button class="btn-next" id="next2" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q3: 申告方法 ===== -->
+  <div class="slide" id="s3">
+    <div class="q-number">Q3</div>
+    <div class="q-title">直近の確定申告で、不動産所得の<br>申告はどのようにされましたか？</div>
+    <div class="q-subtitle">最も近いもの1つ</div>
+    <div class="options" id="opts3"></div>
+    <button class="btn-next" id="next3" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q4: 判断に迷っていること ===== -->
+  <div class="slide" id="s4">
+    <div class="q-number">Q4</div>
+    <div class="q-title">不動産をお持ちになるうえで、<br>いま知りたいことはありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="options" id="opts4"></div>
+    <div class="other-wrap" id="q4OtherWrap">
+      <input type="text" class="text-input" id="q4Other" placeholder="どんなことを知りたいですか？" maxlength="200">
+    </div>
+    <button class="btn-next" id="next4" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q5: 連絡の頻度 ===== -->
+  <div class="slide" id="s5">
+    <div class="q-number">Q5</div>
+    <div class="q-title">この1年間で、不動産会社から<br>どのくらい連絡がありましたか？</div>
+    <div class="q-subtitle">最も近いもの1つ</div>
+    <div class="q-hint">💡 購入された会社・管理を任せている会社のどちらも含みます</div>
+    <div class="options" id="opts5"></div>
+    <button class="btn-next" id="next5" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q6: 連絡を受けての行動 ===== -->
+  <div class="slide" id="s6">
+    <div class="q-number">Q6</div>
+    <div class="q-title">その連絡を受けて、<br>実際にされたことはありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="options" id="opts6"></div>
+    <button class="btn-next" id="next6" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q7: 今後の連絡の希望 ===== -->
+  <div class="slide" id="s7">
+    <div class="q-number">Q7</div>
+    <div class="q-title">今後、不動産会社からの連絡は<br>どのくらいがご希望ですか？</div>
+    <div class="q-subtitle">最も近いもの1つ</div>
+    <div class="options" id="opts7"></div>
+    <button class="btn-next" id="next7" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Q8: インタビュー協力可否 ===== -->
+  <div class="slide" id="s8">
+    <div class="q-number">最後に</div>
+    <div class="q-title">30分のオンライン取材に<br>ご協力いただけませんか？</div>
+    <div class="q-subtitle">あてはまるもの1つ</div>
+    <div class="q-hint">
+      🎁 ご協力いただいた方には、アンケートの謝礼とは別に<br>
+      <b>Amazonギフト券3,000円分</b>をお渡しします<br><br>
+      💻 オンラインで30分／事前のご準備は不要です<br>
+      🙅 不動産や金融商品のご案内は一切ございません
+    </div>
+    <div class="options" id="opts8"></div>
+    <div class="email-block">
+      <div class="email-label" id="emailLabel">🎁 ギフト券の送付先メールアドレス</div>
+      <input type="email" class="text-input" id="email" placeholder="example@mail.com" autocomplete="email">
+      <div class="error-msg" id="emailErr">メールアドレスをご確認ください</div>
+    </div>
+    <button class="btn-next" id="next8" disabled onclick="submitSurvey()">回答を送信する</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== Slide 9: 完了 ===== -->
+  <div class="slide" id="s9">
+    <div class="done-card">
+      <div class="done-emoji">🎉</div>
+      <div class="done-title">ありがとうございました！</div>
+      <p class="done-sub">
+        ご回答いただいた内容は、<br>
+        今後のサービスづくりに活用させていただきます。
+      </p>
+      <div class="gift-box" id="giftBox">
+        🎁 <b>Amazonギフト券500円分</b>を、<br>
+        ご登録のメールアドレス宛に<br>
+        後日お送りいたします。
+      </div>
+    </div>
+    <div class="card" id="interviewNote" style="display:none">
+      <div class="card-title">💬 取材にご協力いただける方へ</div>
+      <p style="font-size:.87rem;line-height:1.8;color:var(--text-sub)">
+        ご入力いただいたメールアドレス宛に、<br>
+        担当者より日程のご相談をお送りいたします。<br>
+        少々お待ちくださいませ。
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   送信先（Google Apps Script）
+   README の「GASデプロイ手順」で作った /exec URL を入れる。
+   POST_TOKEN は GAS 側のスクリプトプロパティと同じ文字列にする。
+   ============================================================ */
+const GAS_URL = '';   // ← デプロイ後に /exec URL を貼る
+const POST_TOKEN = 'taxnap_fudosan_CHANGE_ME';
+
+/* ============================================================
+   配布パラメータ
+     c … 配信コード（集計キー）。例: mail / line / push
+     n … 表示名
+   ============================================================ */
+const CHANNELS = {
+  mail: 'メール配信',
+  line: 'LINE配信',
+  push: 'アプリ内通知',
+};
+const params    = new URLSearchParams(location.search);
+const CHANNEL_ID = (params.get('c') || 'direct').toLowerCase();
+const CHANNEL    = (params.get('n') || '').trim() || CHANNELS[CHANNEL_ID] || CHANNEL_ID;
+
+/* ============================================================
+   設問データ
+   text は集計キー。表示は label / sub で調整する（tedori と同じ作法）。
+   ============================================================ */
+const QUESTIONS = {
+  // 0戸と6戸以上を両端に置き、「多いほど/少ないほど通る」と読めないようにしている
+  q1_units: { container:'opts1', next:'next1', opts:[
+    {emoji:'0️⃣', text:'0戸（現在は保有していない）', label:'保有していない'},
+    {emoji:'1️⃣', text:'1戸'},
+    {emoji:'2️⃣', text:'2戸'},
+    {emoji:'3️⃣', text:'3戸'},
+    {emoji:'4️⃣', text:'4〜5戸'},
+    {emoji:'🏢', text:'6戸以上'}
+  ]},
+  q2_type: { container:'opts2', next:'next2', multi:true, opts:[
+    {emoji:'🏬', text:'区分マンション（マンションの一室）',
+                 label:'区分マンション', sub:'マンションの一室'},
+    {emoji:'🏢', text:'一棟アパート・一棟マンション',
+                 label:'一棟アパート・マンション'},
+    {emoji:'🏡', text:'戸建て'},
+    {emoji:'🅿️', text:'土地・駐車場'},
+    {emoji:'📦', text:'その他'}
+  ]},
+  q3_method: { container:'opts3', next:'next3', opts:[
+    {emoji:'📱', text:'アプリ・会計ソフトで自分でした',
+                 label:'アプリ・会計ソフトで自分でした', sub:'タックスナップ・freee・弥生 など'},
+    {emoji:'✍️', text:'手書き・国税庁サイトで自分でした',
+                 label:'自分で作成した', sub:'手書き・国税庁サイト'},
+    {emoji:'👔', text:'税理士におまかせした'},
+    {emoji:'👨‍👩‍👦', text:'家族・知人にお願いした'},
+    {emoji:'🆕', text:'不動産所得の申告はしたことがない', label:'申告したことがない'}
+  ]},
+  // 検証したい「どんな情報が欲しいか」。選択肢を見せる前に聞きたいので
+  // 具体例（買い増し・ローン・売却）は並列に置き、特定の方向へ寄らないようにしている
+  q4_want: { container:'opts4', next:'next4', multi:true, opts:[
+    {emoji:'🧾', text:'確定申告のやり方・経費にできるもの',
+                 label:'確定申告のやり方', sub:'経費にできるものの線引きなど'},
+    {emoji:'📊', text:'いまの物件の収支が適正か',
+                 label:'いまの物件の収支が適正か'},
+    {emoji:'🏦', text:'ローンの借り換え・繰り上げ返済',
+                 label:'ローンのこと', sub:'借り換え・繰り上げ返済など'},
+    {emoji:'🔧', text:'修繕・設備の更新の時期や費用',
+                 label:'修繕・設備の更新', sub:'時期や費用の目安'},
+    {emoji:'📈', text:'物件を買い増すかどうか', label:'買い増しの判断'},
+    {emoji:'💰', text:'物件を売却するかどうか', label:'売却の判断'},
+    {emoji:'🏘️', text:'いまの物件の資産価値・相場',
+                 label:'資産価値・相場'},
+    {emoji:'✏️', text:'その他', isOther:true},
+    {emoji:'🙅', text:'特にない', exclusive:true}
+  ]},
+  // 事実のみを聞く。評価（迷惑か否か）はQ7まで持ち込まない
+  q5_freq: { container:'opts5', next:'next5', opts:[
+    {emoji:'📞', text:'月に1回以上'},
+    {emoji:'📆', text:'数ヶ月に1回程度'},
+    {emoji:'🗓️', text:'年に1回程度'},
+    {emoji:'💤', text:'ほとんど来ない'},
+    {emoji:'🚫', text:'まったく来ない'}
+  ]},
+  // 「迷惑か」ではなく「行動が起きたか」で測る。これが連絡の価値の実質的な指標
+  q6_action: { container:'opts6', next:'next6', multi:true, opts:[
+    {emoji:'🔍', text:'内容について自分で調べた', label:'自分で調べた'},
+    {emoji:'💬', text:'担当者に相談・質問した', label:'担当者に相談した'},
+    {emoji:'🤔', text:'買い増しや売却を検討した', label:'買い増し・売却を検討した'},
+    {emoji:'📄', text:'資料や提案を見た', label:'資料・提案を見た'},
+    {emoji:'😐', text:'特に何もしなかった', label:'特に何もしなかった'},
+    {emoji:'🚫', text:'連絡が来ていない', label:'連絡が来ていない', exclusive:true}
+  ]},
+  // 左右対称の5段階。中央を「内容による」にして、どちらにも逃げ場を作る
+  q7_pref: { container:'opts7', next:'next7', opts:[
+    {emoji:'🙌', text:'積極的に情報がほしい'},
+    {emoji:'🙆', text:'役に立つ情報ならほしい'},
+    {emoji:'🤔', text:'内容による'},
+    {emoji:'🙏', text:'できれば控えてほしい'},
+    {emoji:'🚫', text:'一切不要'}
+  ]},
+  q8_interview: { container:'opts8', next:'next8', opts:[
+    {emoji:'🙆', text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
+    {emoji:'🙅', text:'協力は難しい', label:'今回は難しい'}
+  ]}
+};
+
+/* 「連絡がまったく来ない」人にはQ6（連絡を受けての行動）を聞かない。
+   来ていない連絡について答えさせると、実態のない回答が混ざるため。 */
+const SKIP_Q6_WHEN = ['まったく来ない'];
+
+const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const answers = {};
+const history = [];
+let current = 's0';
+
+/* ===== 選択肢の描画 ===== */
+function buildOptions(key, q) {
+  const wrap = document.getElementById(q.container);
+  if (!wrap) return;
+  q.opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'opt-btn' + (q.multi ? ' multi' : '');
+    btn.dataset.value = opt.text;
+    if (opt.isOther)   btn.dataset.isOther = '1';
+    if (opt.exclusive) btn.dataset.exclusive = '1';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML =
+      `<span class="opt-emoji">${opt.emoji}</span>` +
+      `<span class="opt-label">${opt.label || opt.text}` +
+        (opt.sub ? `<span class="opt-sub">${opt.sub}</span>` : '') +
+      `</span>` +
+      `<span class="opt-check"></span>`;
+    btn.addEventListener('click', () => {
+      if (q.multi) toggleMulti(key, q, wrap, btn, opt);
+      else selectSingle(key, q, wrap, btn, opt);
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function selectSingle(key, q, wrap, btn, opt) {
+  wrap.querySelectorAll('.opt-btn').forEach(b => {
+    b.classList.remove('selected');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  btn.classList.add('selected');
+  btn.setAttribute('aria-pressed', 'true');
+  answers[key] = opt.text;
+
+  // メール欄は常に出す（ギフト券の送付に必要なため）。
+  // 取材に協力いただける方は、日程連絡にも使う旨を添える。
+  if (key === 'q8_interview') {
+    document.getElementById('emailLabel').innerHTML =
+      (opt.text === '協力できる')
+        ? '🎁 ギフト券の送付先・日程のご連絡先'
+        : '🎁 ギフト券の送付先メールアドレス';
+  }
+  document.getElementById(q.next).disabled = false;
+}
+
+function toggleMulti(key, q, wrap, btn, opt) {
+  if (!Array.isArray(answers[key])) answers[key] = [];
+  const willSelect = !btn.classList.contains('selected');
+
+  if (willSelect && opt.exclusive) {
+    // 「特にない」を選んだら他を全部外す
+    wrap.querySelectorAll('.opt-btn').forEach(b => {
+      b.classList.remove('selected');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    answers[key] = [];
+  } else if (willSelect) {
+    // 通常項目を選んだら排他項目を外す
+    wrap.querySelectorAll('.opt-btn[data-exclusive="1"]').forEach(b => {
+      b.classList.remove('selected');
+      b.setAttribute('aria-pressed', 'false');
+      answers[key] = answers[key].filter(v => v !== b.dataset.value);
+    });
+  }
+  btn.classList.toggle('selected', willSelect);
+  btn.setAttribute('aria-pressed', willSelect ? 'true' : 'false');
+  if (willSelect) answers[key].push(opt.text);
+  else answers[key] = answers[key].filter(v => v !== opt.text);
+
+  // 「その他」が選ばれているときだけ自由記述を出す
+  if (key === 'q4_want') {
+    const otherOn = !!wrap.querySelector('.opt-btn[data-is-other="1"].selected');
+    document.getElementById('q4OtherWrap').classList.toggle('show', otherOn);
+    // 外したら記述も消す（選択されていないのに本文だけ残るのを防ぐ）
+    if (!otherOn) document.getElementById('q4Other').value = '';
+  }
+
+  document.getElementById(q.next).disabled = (answers[key].length === 0);
+}
+
+/* ===== 画面遷移 ===== */
+function showSlide(id) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  current = id;
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function goNext() {
+  const idx = ALL_STEPS.indexOf(current);
+  if (idx < 0 || idx + 1 >= ALL_STEPS.length) return;
+  let nextId = ALL_STEPS[idx + 1];
+  // 連絡が来ていない人はQ6を飛ばす
+  if (nextId === 's6' && SKIP_Q6_WHEN.includes(answers.q5_freq)) {
+    answers.q6_action = ['連絡が来ていない'];
+    nextId = 's7';
+  }
+  history.push(current);
+  showSlide(nextId);
+}
+
+function goBack() {
+  const prev = history.pop();
+  if (prev) showSlide(prev);
+}
+
+function updateProgress() {
+  const fill = document.getElementById('progressFill');
+  const text = document.getElementById('progressText');
+  if (current === 's0' || current === 's9') {
+    fill.style.width = (current === 's9' ? 100 : 0) + '%';
+    text.textContent = '';
+    return;
+  }
+  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's9');
+  const done = qSteps.indexOf(current) + 1;
+  fill.style.width = (done / qSteps.length * 100) + '%';
+  text.textContent = `${done} / ${qSteps.length}`;
+}
+
+/* ===== 送信 ===== */
+function isValidEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function submitSurvey() {
+  const wantsInterview = (answers.q8_interview === '協力できる');
+  const emailEl = document.getElementById('email');
+  const email = (emailEl.value || '').trim();
+
+  // ギフト券の送付先なので全員必須
+  if (!isValidEmail(email)) {
+    emailEl.classList.add('input-error');
+    document.getElementById('emailErr').classList.add('show');
+    emailEl.focus();
+    return;
+  }
+
+  const payload = {
+    _token: POST_TOKEN,
+    _kind: 'survey',
+    timestamp: new Date().toISOString(),
+    channel:    CHANNEL,
+    channel_id: CHANNEL_ID,
+    email: email,
+    q1_units:      answers.q1_units || '',
+    q2_type:       (answers.q2_type || []).join(', '),
+    q3_method:     answers.q3_method || '',
+    q4_want:       (answers.q4_want || []).join(', '),
+    q4_want_free:  (document.getElementById('q4Other').value || '').trim(),
+    q5_freq:       answers.q5_freq || '',
+    q6_action:     (answers.q6_action || []).join(', '),
+    q7_pref:       answers.q7_pref || '',
+    q8_interview:  answers.q8_interview || '',
+    user_agent: navigator.userAgent
+  };
+
+  // no-cors のためレスポンスは読めない。到達確認はスプレッドシートの行で行う
+  if (GAS_URL) {
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  } else {
+    console.warn('GAS_URL 未設定のため送信をスキップしました', payload);
+  }
+
+  // 送信可否にかかわらず完了画面へ進める（回答者を止めない）
+  document.getElementById('interviewNote').style.display = wantsInterview ? '' : 'none';
+  showSlide('s9');
+}
+
+/* ===== 初期化 ===== */
+Object.entries(QUESTIONS).forEach(([key, q]) => buildOptions(key, q));
+document.getElementById('email').addEventListener('input', () => {
+  document.getElementById('email').classList.remove('input-error');
+  document.getElementById('emailErr').classList.remove('show');
+});
+showSlide('s0');
+</script>
+</body>
+</html>

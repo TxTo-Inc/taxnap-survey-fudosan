@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>配布リンク作成 | 不動産オーナーアンケート</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,'Hiragino Sans',sans-serif;background:#f8faf9;color:#1a1a1a;padding:24px 16px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto}
+h1{font-size:1.25rem;margin-bottom:6px}
+.sub{font-size:.85rem;color:#666;margin-bottom:22px}
+.field{margin-bottom:16px}
+label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px}
+input{width:100%;padding:12px 14px;border:2px solid #e5e7eb;border-radius:10px;font-size:1rem;font-family:inherit}
+input:focus{outline:none;border-color:#27BA74}
+.hint{font-size:.78rem;color:#666;margin-top:4px}
+.out{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-top:20px}
+.out-row{margin-bottom:14px}
+.out-row:last-child{margin-bottom:0}
+.out-label{font-size:.8rem;font-weight:700;color:#1e9a5e;margin-bottom:6px}
+.url{background:#f6f7f6;border-radius:8px;padding:10px 12px;font-size:.82rem;word-break:break-all;font-family:ui-monospace,monospace}
+button{margin-top:8px;padding:8px 16px;background:#27BA74;color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;font-family:inherit;cursor:pointer}
+button:active{background:#1e9a5e}
+.note{font-size:.8rem;color:#666;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 14px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>配布リンク作成</h1>
+  <p class="sub">不動産オーナーアンケートの配布用URLを作ります。</p>
+
+  <div class="field">
+    <label for="code">配信コード（集計キー）</label>
+    <input id="code" value="mail" placeholder="mail / line / push など">
+    <div class="hint">シートの「配信コード」列に入ります。一度配ったら変えないこと。</div>
+  </div>
+
+  <div class="field">
+    <label for="name">表示名（任意）</label>
+    <input id="name" placeholder="メール配信">
+    <div class="hint">省略すると mail→メール配信 / line→LINE配信 / push→アプリ内通知 に変換されます。</div>
+  </div>
+
+  <div class="out">
+    <div class="out-row">
+      <div class="out-label">配布用URL</div>
+      <div class="url" id="url"></div>
+      <button onclick="copy()">コピー</button>
+    </div>
+  </div>
+
+  <div class="note">
+    QRコードにして配布物に載せることもできます。<br>
+    回答は Google スプレッドシートの「回答」シートに1行ずつ追記されます。
+  </div>
+</div>
+
+<script>
+const BASE = 'https://txto-inc.github.io/taxnap-survey-fudosan/';
+function build() {
+  const c = (document.getElementById('code').value || '').trim();
+  const n = (document.getElementById('name').value || '').trim();
+  let u = BASE;
+  const q = [];
+  if (c) q.push('c=' + encodeURIComponent(c));
+  if (n) q.push('n=' + encodeURIComponent(n));
+  if (q.length) u += '?' + q.join('&');
+  document.getElementById('url').textContent = u;
+}
+function copy() {
+  navigator.clipboard.writeText(document.getElementById('url').textContent);
+}
+document.getElementById('code').addEventListener('input', build);
+document.getElementById('name').addEventListener('input', build);
+build();
+</script>
+</body>
+</html>
