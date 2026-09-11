@@ -112,7 +112,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       <div class="intro-emoji">🏠</div>
       <div class="intro-bubble">オーナーの皆さまへ</div>
       <h1 class="intro-headline">不動産をお持ちの方への<br>アンケート</h1>
-      <p class="intro-sub">かんたん7問・約2分<br>今後の機能づくりの参考にさせてください</p>
+      <p class="intro-sub">かんたん8問・約3分<br>今後の機能づくりの参考にさせてください</p>
     </div>
 
     <div class="steps">
@@ -123,8 +123,8 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       </div>
       <div class="step-row">
         <span class="step-num">2</span>
-        <span class="step-text">お困りごと・不動産会社との関わりを4問</span>
-        <span class="step-badge">1分</span>
+        <span class="step-text">お困りごと・不動産会社との関わりを5問</span>
+        <span class="step-badge">2分</span>
       </div>
       <div class="step-row">
         <span class="step-num">3</span>
@@ -197,28 +197,43 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q6: 連絡を受けての行動 ===== -->
+  <!-- ===== Q6: どんな連絡ならありがたいか ===== -->
   <div class="slide" id="s6">
     <div class="q-number">Q6</div>
-    <div class="q-title">その連絡を受けて、<br>実際にされたことはありますか？</div>
+    <div class="q-title">どんな連絡なら、<br>受け取ってよいと思いますか？</div>
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts6"></div>
     <button class="btn-next" id="next6" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q7: 今後の連絡の希望 ===== -->
+  <!-- ===== Q7: 連絡で気になる点 ===== -->
   <div class="slide" id="s7">
     <div class="q-number">Q7</div>
-    <div class="q-title">今後、不動産会社からの連絡は<br>どのくらいがご希望ですか？</div>
-    <div class="q-subtitle">最も近いもの1つ</div>
+    <div class="q-title">不動産会社からの連絡で、<br>気になることはありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts7"></div>
     <button class="btn-next" id="next7" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q8: インタビュー協力可否 ===== -->
+  <!-- ===== Q8: データ連携 ===== -->
   <div class="slide" id="s8">
+    <div class="q-number">Q8</div>
+    <div class="q-title">担当の方にお伝えしてもよいと<br>思える情報はありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="q-hint">
+      💡 物件をご購入されたとき、年収などの情報を不動産会社に<br>
+      ご提出されたと思います。その後の状況について伺うものです。<br>
+      実際にお伝えするかは、この場で決まるものではありません。
+    </div>
+    <div class="options" id="opts8"></div>
+    <button class="btn-next" id="next8" disabled onclick="goNext()">次へ →</button>
+    <button class="btn-back" onclick="goBack()">← 戻る</button>
+  </div>
+
+  <!-- ===== 取材協力可否 ===== -->
+  <div class="slide" id="s9">
     <div class="q-number">最後に</div>
     <div class="q-title">30分のオンライン取材に<br>ご協力いただけませんか？</div>
     <div class="q-subtitle">あてはまるもの1つ</div>
@@ -228,18 +243,18 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       💻 オンラインで30分／事前のご準備は不要です<br>
       🙅 不動産や金融商品のご案内は一切ございません
     </div>
-    <div class="options" id="opts8"></div>
+    <div class="options" id="opts9"></div>
     <div class="email-block">
       <div class="email-label" id="emailLabel">🎁 ギフト券の送付先メールアドレス</div>
       <input type="email" class="text-input" id="email" placeholder="example@mail.com" autocomplete="email">
       <div class="error-msg" id="emailErr">メールアドレスをご確認ください</div>
     </div>
-    <button class="btn-next" id="next8" disabled onclick="submitSurvey()">回答を送信する</button>
+    <button class="btn-next" id="next9" disabled onclick="submitSurvey()">回答を送信する</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Slide 9: 完了 ===== -->
-  <div class="slide" id="s9">
+  <!-- ===== 完了 ===== -->
+  <div class="slide" id="s10">
     <div class="done-card">
       <div class="done-emoji">🎉</div>
       <div class="done-title">ありがとうございました！</div>
@@ -355,34 +370,64 @@ const QUESTIONS = {
     {emoji:'💤', text:'ほとんど来ない'},
     {emoji:'🚫', text:'まったく来ない'}
   ]},
-  // 「迷惑か」ではなく「行動が起きたか」で測る。これが連絡の価値の実質的な指標
-  q6_action: { container:'opts6', next:'next6', multi:true, opts:[
-    {emoji:'🔍', text:'内容について自分で調べた', label:'自分で調べた'},
-    {emoji:'💬', text:'担当者に相談・質問した', label:'担当者に相談した'},
-    {emoji:'🤔', text:'買い増しや売却を検討した', label:'買い増し・売却を検討した'},
-    {emoji:'📄', text:'資料や提案を見た', label:'資料・提案を見た'},
-    {emoji:'😐', text:'特に何もしなかった', label:'特に何もしなかった'},
-    {emoji:'🚫', text:'連絡が来ていない', label:'連絡が来ていない', exclusive:true}
+  // Q4 の困りごと3軸に対応させた「連絡の中身」の選好。
+  // 「新しい物件の紹介」は Notion §4（新物件を先に見せない）に従い最後に置く。
+  // 「質問したときの回答だけでよい」= プッシュ不要・プル希望の層を拾うために必要。
+  q6_welcome: { container:'opts6', next:'next6', multi:true, opts:[
+    {emoji:'📊', text:'収支や税金で確認したほうがいい点の知らせ',
+                 label:'収支や税金で確認したい点', sub:'申告や利益に関わること'},
+    {emoji:'🔧', text:'修繕や管理費の値上げが決まったときの連絡',
+                 label:'修繕・管理費の値上げの連絡'},
+    {emoji:'🏦', text:'金利が変わって返済額に影響が出るときの連絡',
+                 label:'金利・返済額が変わるときの連絡'},
+    {emoji:'🚪', text:'入居者の退去や、次が決まったときの連絡',
+                 label:'入居者の退去・入居の連絡'},
+    {emoji:'🏘️', text:'周辺の家賃相場が変わったときの知らせ',
+                 label:'家賃相場が変わったときの知らせ'},
+    {emoji:'💬', text:'こちらから質問したときの回答だけでよい',
+                 label:'質問したときの回答だけでよい', sub:'こちらから聞いたときのみ'},
+    {emoji:'📈', text:'新しい物件の紹介', label:'新しい物件の紹介'},
+    {emoji:'🚫', text:'どんな内容でも受け取りたくない',
+                 label:'どんな内容でも受け取りたくない', exclusive:true}
   ]},
-  // 左右対称の5段階。中央を「内容による」にして、どちらにも逃げ場を作る
-  q7_pref: { container:'opts7', next:'next7', opts:[
-    {emoji:'🙌', text:'積極的に情報がほしい'},
-    {emoji:'🙆', text:'役に立つ情報ならほしい'},
-    {emoji:'🤔', text:'内容による'},
-    {emoji:'🙏', text:'できれば控えてほしい'},
-    {emoji:'🚫', text:'一切不要'}
+  // 「営業連絡が嫌」の正体を、手段／頻度／中身／不足／送り主に分解する。
+  // 打ち手が全く変わるため、ここを切り分けないと結果を使えない。
+  // 「必要な連絡が来ない」= 過多ではなく不足が問題の場合を拾う。
+  q7_concern: { container:'opts7', next:'next7', multi:true, opts:[
+    {emoji:'📞', text:'電話で来るのが困る', label:'電話で来るのが困る'},
+    {emoji:'🔔', text:'回数が多いと負担に感じる', label:'回数が多いと負担'},
+    {emoji:'💸', text:'売り込みだと感じる内容が多い', label:'売り込みだと感じる'},
+    {emoji:'🕳️', text:'必要な連絡が来ないことがある', label:'必要な連絡が来ない'},
+    {emoji:'❓', text:'誰から来ているのか分かりにくい', label:'誰から来たか分かりにくい'},
+    {emoji:'🙆', text:'特に気になることはない', exclusive:true}
   ]},
-  q8_interview: { container:'opts8', next:'next8', opts:[
+  // 社内設計では「年収・所得・税額は常に非開示、借入残高のみレンジで任意オプトイン」。
+  // 束ねて聞くと年収への抵抗が借入残高の判断を汚染するため、情報の種類ごとに聞く。
+  // 「抵抗はありますか」ではなく「伝えてもよいと思えるもの」と聞き、否定方向へ誘導しない。
+  q8_share: { container:'opts8', next:'next8', multi:true, opts:[
+    {emoji:'✅', text:'確定申告が終わったかどうか', label:'確定申告が終わったかどうか'},
+    {emoji:'🏠', text:'保有している物件の数', label:'保有している物件の数'},
+    {emoji:'🏦', text:'ローンの残高（おおよその幅で）',
+                 label:'ローンの残高', sub:'おおよその幅で'},
+    {emoji:'💬', text:'相談したいことがあるとき、その内容',
+                 label:'相談したいことの内容', sub:'自分から相談するとき'},
+    {emoji:'📊', text:'不動産の収支（利益が出ているか）',
+                 label:'不動産の収支'},
+    {emoji:'💰', text:'年収', label:'年収'},
+    {emoji:'🚫', text:'どれも伝えたくない', label:'どれも伝えたくない', exclusive:true}
+  ]},
+  q9_interview: { container:'opts9', next:'next9', opts:[
     {emoji:'🙆', text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
     {emoji:'🙅', text:'協力は難しい', label:'今回は難しい'}
   ]}
 };
 
-/* 「連絡がまったく来ない」人にはQ6（連絡を受けての行動）を聞かない。
-   来ていない連絡について答えさせると、実態のない回答が混ざるため。 */
-const SKIP_Q6_WHEN = ['まったく来ない'];
+/* 「連絡がまったく来ない」人には Q7（連絡で気になる点）を聞かない。
+   来ていない連絡について答えさせると、実態のない回答が混ざるため。
+   Q6（どんな連絡ならありか）は今後の希望なので、連絡が来ていない人にも聞く。 */
+const SKIP_Q7_WHEN = ['まったく来ない'];
 
-const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
 const answers = {};
 const history = [];
 let current = 's0';
@@ -424,7 +469,7 @@ function selectSingle(key, q, wrap, btn, opt) {
 
   // メール欄は常に出す（ギフト券の送付に必要なため）。
   // 取材に協力いただける方は、日程連絡にも使う旨を添える。
-  if (key === 'q8_interview') {
+  if (key === 'q9_interview') {
     document.getElementById('emailLabel').innerHTML =
       (opt.text === '協力できる')
         ? '🎁 ギフト券の送付先・日程のご連絡先'
@@ -481,10 +526,10 @@ function goNext() {
   const idx = ALL_STEPS.indexOf(current);
   if (idx < 0 || idx + 1 >= ALL_STEPS.length) return;
   let nextId = ALL_STEPS[idx + 1];
-  // 連絡が来ていない人はQ6を飛ばす
-  if (nextId === 's6' && SKIP_Q6_WHEN.includes(answers.q5_freq)) {
-    answers.q6_action = ['連絡が来ていない'];
-    nextId = 's7';
+  // 連絡が来ていない人は Q7（気になる点）を飛ばす
+  if (nextId === 's7' && SKIP_Q7_WHEN.includes(answers.q5_freq)) {
+    answers.q7_concern = ['連絡が来ていない'];
+    nextId = 's8';
   }
   history.push(current);
   showSlide(nextId);
@@ -498,12 +543,12 @@ function goBack() {
 function updateProgress() {
   const fill = document.getElementById('progressFill');
   const text = document.getElementById('progressText');
-  if (current === 's0' || current === 's9') {
-    fill.style.width = (current === 's9' ? 100 : 0) + '%';
+  if (current === 's0' || current === 's10') {
+    fill.style.width = (current === 's10' ? 100 : 0) + '%';
     text.textContent = '';
     return;
   }
-  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's9');
+  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's10');
   const done = qSteps.indexOf(current) + 1;
   fill.style.width = (done / qSteps.length * 100) + '%';
   text.textContent = `${done} / ${qSteps.length}`;
@@ -515,7 +560,7 @@ function isValidEmail(v) {
 }
 
 function submitSurvey() {
-  const wantsInterview = (answers.q8_interview === '協力できる');
+  const wantsInterview = (answers.q9_interview === '協力できる');
   const emailEl = document.getElementById('email');
   const email = (emailEl.value || '').trim();
 
@@ -540,9 +585,10 @@ function submitSurvey() {
     q4_worry:      (answers.q4_worry || []).join(', '),
     q4_worry_free: (document.getElementById('q4Other').value || '').trim(),
     q5_freq:       answers.q5_freq || '',
-    q6_action:     (answers.q6_action || []).join(', '),
-    q7_pref:       answers.q7_pref || '',
-    q8_interview:  answers.q8_interview || '',
+    q6_welcome:    (answers.q6_welcome || []).join(', '),
+    q7_concern:    (answers.q7_concern || []).join(', '),
+    q8_share:      (answers.q8_share || []).join(', '),
+    q9_interview:  answers.q9_interview || '',
     user_agent: navigator.userAgent
   };
 
@@ -560,7 +606,7 @@ function submitSurvey() {
 
   // 送信可否にかかわらず完了画面へ進める（回答者を止めない）
   document.getElementById('interviewNote').style.display = wantsInterview ? '' : 'none';
-  showSlide('s9');
+  showSlide('s10');
 }
 
 /* ===== 初期化 ===== */
