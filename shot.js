@@ -18,7 +18,7 @@ const { chromium } = require('playwright');
   await shot('1units');   await pick('opts1','2戸'); await next();
   await shot('2type');    await pick('opts2','区分マンション（マンションの一室）'); await next();
   await shot('3method');  await pick('opts3','アプリ・会計ソフトで自分でした'); await next();
-  await pick('opts4','物件の価格がいま上がっているのか下がっているのか');
+  await pick('opts4','物件の価格がいくらになっているか分からないこと');
   await pick('opts4','その他');
   await shot('4worry');
   await p.fill('#q4Other','管理組合の修繕計画'); await next();
