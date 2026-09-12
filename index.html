@@ -384,16 +384,16 @@ const QUESTIONS = {
   // 「助かったこと」だけを聞き、不満は聞かない。不満を並べると直後の
   // Q7・Q8（データ提供）が拒否方向に引きずられるため。
   q6_helped: { container:'opts6', next:'next6', multi:true, opts:[
-    {emoji:'🏠', text:'購入のときに、条件や資金計画を相談できた',
+    {emoji:'🏠', text:'購入のときの相談（条件や資金計画）',
                  label:'購入のときの相談', sub:'条件や資金計画'},
-    {emoji:'🚪', text:'入居者や家賃のことで対応してもらえた',
+    {emoji:'🚪', text:'入居者や家賃のことでの対応',
                  label:'入居者・家賃のことでの対応'},
-    {emoji:'🔧', text:'修繕や設備の相談に乗ってもらえた',
-                 label:'修繕・設備の相談'},
-    {emoji:'🧾', text:'確定申告のことを教えてもらえた',
-                 label:'確定申告のことを教えてもらえた'},
-    {emoji:'🏘️', text:'相場や売却について教えてもらえた',
-                 label:'相場・売却について教えてもらえた'},
+    {emoji:'🔧', text:'修繕や設備のことでの相談',
+                 label:'修繕・設備のことでの相談'},
+    {emoji:'🧾', text:'確定申告についての説明',
+                 label:'確定申告についての説明'},
+    {emoji:'🏘️', text:'相場や売却についての説明',
+                 label:'相場・売却についての説明'},
     {emoji:'🤔', text:'特に思い当たることはない', exclusive:true}
   ]},
   // 年収と借入残高は「渡すか否か」ではなく「どの粒度なら渡せるか」を聞く。
@@ -405,26 +405,26 @@ const QUESTIONS = {
   // （社内設計では年収=常に非開示／借入残高=レンジで任意オプトイン と分けている）。
   // 段階は 具体値 > 幅 > 変動の有無 > 聞かれたときだけ > 伝えない の5択。
   q7_income: { container:'opts7', next:'next7', opts:[
-    {emoji:'💯', text:'具体的な金額まで伝えてよい',
+    {text:'具体的な金額まで伝えてよい',
                  label:'具体的な金額まで', sub:'例: 780万円'},
-    {emoji:'📊', text:'おおよその幅なら伝えてよい',
+    {text:'おおよその幅なら伝えてよい',
                  label:'おおよその幅なら', sub:'例: 700万〜800万円'},
-    {emoji:'📈', text:'増えたか変わらないか、だけなら伝えてよい',
+    {text:'増えたか変わらないか、だけなら伝えてよい',
                  label:'増えたか・変わらないかだけ', sub:'金額は伝えない'},
-    {emoji:'💬', text:'聞かれたときに自分から伝えるならよい',
+    {text:'聞かれたときに自分から伝えるならよい',
                  label:'聞かれたときに自分から', sub:'自動では伝えない'},
-    {emoji:'🚫', text:'年収は伝えたくない', label:'伝えたくない'}
+    {text:'年収は伝えたくない', label:'伝えたくない'}
   ]},
   q8_loan: { container:'opts8', next:'next8', opts:[
-    {emoji:'💯', text:'具体的な金額まで伝えてよい',
+    {text:'具体的な金額まで伝えてよい',
                  label:'具体的な金額まで', sub:'例: 1,850万円'},
-    {emoji:'📊', text:'おおよその幅なら伝えてよい',
+    {text:'おおよその幅なら伝えてよい',
                  label:'おおよその幅なら', sub:'例: 1,800万〜1,900万円'},
-    {emoji:'📉', text:'減ったか変わらないか、だけなら伝えてよい',
+    {text:'減ったか変わらないか、だけなら伝えてよい',
                  label:'減ったか・変わらないかだけ', sub:'金額は伝えない'},
-    {emoji:'💬', text:'聞かれたときに自分から伝えるならよい',
+    {text:'聞かれたときに自分から伝えるならよい',
                  label:'聞かれたときに自分から', sub:'自動では伝えない'},
-    {emoji:'🚫', text:'借入残高は伝えたくない', label:'伝えたくない'}
+    {text:'借入残高は伝えたくない', label:'伝えたくない'}
   ]},
   q9_interview: { container:'opts9', next:'next9', opts:[
     {emoji:'🙆', text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
@@ -450,7 +450,7 @@ function buildOptions(key, q) {
     if (opt.exclusive) btn.dataset.exclusive = '1';
     btn.setAttribute('aria-pressed', 'false');
     btn.innerHTML =
-      `<span class="opt-emoji">${opt.emoji}</span>` +
+      (opt.emoji ? `<span class="opt-emoji">${opt.emoji}</span>` : '') +
       `<span class="opt-label">${opt.label || opt.text}` +
         (opt.sub ? `<span class="opt-sub">${opt.sub}</span>` : '') +
       `</span>` +
