@@ -51,6 +51,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 /* 設問文そのものを置くケース（Q6・Q7）。補助的な指示ではないので黒字にする */
 .q-subtitle.is-question{font-size:.95rem;color:var(--text);line-height:1.6}
 .q-hint{font-size:.78rem;color:var(--text-sub);line-height:1.7;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;margin-bottom:16px;word-break:auto-phrase}
+/* 話題の転換を示すセクション見出し。設問より前に置く */
+.q-hint.section-note{background:var(--brand-light);border-color:#cdebda;margin-bottom:14px}
 
 .options{display:flex;flex-direction:column;gap:10px}
 .opt-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 18px;border:2px solid #e5e7eb;border-radius:var(--radius);background:#fff;font-size:.95rem;font-family:inherit;color:var(--text);cursor:pointer;transition:all .15s}
@@ -181,12 +183,12 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
   <!-- ===== Q4: 営業に助けられた経験 ===== -->
   <div class="slide" id="s4">
     <div class="q-number">Q4</div>
-    <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
-    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
-    <div class="q-hint">
+    <div class="q-hint section-note">
       ここからは、<b>物件を購入された不動産会社の担当の方</b><br>
       についてお伺いします
     </div>
+    <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts4"></div>
     <button class="btn-next" id="next4" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
@@ -312,30 +314,30 @@ const CHANNEL    = (params.get('n') || '').trim() || CHANNELS[CHANNEL_ID] || CHA
 const QUESTIONS = {
   // 0戸と6戸以上を両端に置き、「多いほど/少ないほど通る」と読めないようにしている
   q1_units: { container:'opts1', next:'next1', opts:[
-    {text:'0戸（現在は保有していない）', label:'保有していない'},
-    {text:'1戸'},
-    {text:'2戸'},
-    {text:'3戸'},
-    {text:'4〜5戸'},
-    {text:'6戸以上'}
+    {emoji:'0️⃣', text:'0戸（現在は保有していない）', label:'保有していない'},
+    {emoji:'1️⃣', text:'1戸'},
+    {emoji:'2️⃣', text:'2戸'},
+    {emoji:'3️⃣', text:'3戸'},
+    {emoji:'4️⃣', text:'4〜5戸'},
+    {emoji:'🏢', text:'6戸以上'}
   ]},
   q2_type: { container:'opts2', next:'next2', multi:true, opts:[
-    {text:'区分マンション（マンションの一室）',
+    {emoji:'🏬', text:'区分マンション（マンションの一室）',
                  label:'区分マンション', sub:'マンションの一室'},
-    {text:'一棟アパート・一棟マンション',
+    {emoji:'🏢', text:'一棟アパート・一棟マンション',
                  label:'一棟アパート・マンション'},
-    {text:'戸建て'},
-    {text:'土地・駐車場'},
-    {text:'その他', isOther:true}
+    {emoji:'🏡', text:'戸建て'},
+    {emoji:'🅿️', text:'土地・駐車場'},
+    {emoji:'📦', text:'その他', isOther:true}
   ]},
   q3_method: { container:'opts3', next:'next3', opts:[
-    {text:'アプリ・会計ソフトで自分でした',
+    {emoji:'📱', text:'アプリ・会計ソフトで自分でした',
                  label:'アプリ・会計ソフトで自分でした', sub:'タックスナップ・freee・弥生 など'},
-    {text:'手書き・国税庁サイトで自分でした',
+    {emoji:'✍️', text:'手書き・国税庁サイトで自分でした',
                  label:'自分で作成した', sub:'手書き・国税庁サイト'},
-    {text:'税理士におまかせした'},
-    {text:'家族・知人にお願いした'},
-    {text:'不動産所得の申告はしたことがない', label:'申告したことがない'}
+    {emoji:'👔', text:'税理士におまかせした'},
+    {emoji:'👨‍👩‍👦', text:'家族・知人にお願いした'},
+    {emoji:'🆕', text:'不動産所得の申告はしたことがない', label:'申告したことがない'}
   ]},
   // 検証したい「どんな情報が欲しいか」。選択肢を見せる前に聞きたいので
   // 具体例（買い増し・ローン・売却）は並列に置き、特定の方向へ寄らないようにしている
