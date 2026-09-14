@@ -48,6 +48,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .q-number{font-size:.8rem;font-weight:700;color:var(--brand);margin-bottom:6px}
 .q-title{font-size:1.15rem;font-weight:700;line-height:1.6;margin-bottom:6px;word-break:auto-phrase}
 .q-subtitle{font-size:.8rem;color:var(--text-sub);margin-bottom:20px;word-break:auto-phrase}
+/* 設問文そのものを置くケース（Q6・Q7）。補助的な指示ではないので黒字にする */
+.q-subtitle.is-question{font-size:.95rem;color:var(--text);line-height:1.6}
 .q-hint{font-size:.78rem;color:var(--text-sub);line-height:1.7;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;margin-bottom:16px;word-break:auto-phrase}
 
 .options{display:flex;flex-direction:column;gap:10px}
@@ -204,7 +206,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
   <div class="slide" id="s6">
     <div class="q-number">Q6</div>
     <div class="q-title">確定申告の年収が担当営業に<br>連携される仕組みを検討しています</div>
-    <div class="q-subtitle">どの程度までならお伝えしてもよいと思われますか？</div>
+    <div class="q-subtitle is-question">どの程度までならお伝えしてもよいと思われますか？</div>
     <div class="q-hint">
       年1回・3月末ごろに年収が担当営業の方へ連携され、<br>
       ご自身に合った物件が出たときだけご紹介が届く仕組みです。<br>
@@ -219,10 +221,10 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
   <!-- ===== Q7: 借入残高の連携粒度 ===== -->
   <div class="slide" id="s7">
     <div class="q-number">Q7</div>
-    <div class="q-title">確定申告のローン残高が担当営業に<br>連携される仕組みを検討しています</div>
-    <div class="q-subtitle">どの程度までならお伝えしてもよいと思われますか？</div>
+    <div class="q-title">確定申告の借入残高が担当営業に<br>連携される仕組みを検討しています</div>
+    <div class="q-subtitle is-question">どの程度までならお伝えしてもよいと思われますか？</div>
     <div class="q-hint">
-      年1回・3月末ごろにローン残高が担当営業の方へ連携され、<br>
+      年1回・3月末ごろに借入残高が担当営業の方へ連携され、<br>
       ご自身に合った物件が出たときだけご紹介が届く仕組みです。<br>
       ※ 事前に合意をした方のみ、連携される仕組みを想定しています<br>
       ※ 実際にお伝えするかは、この場で決まるものではありません
