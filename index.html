@@ -123,7 +123,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       </div>
       <div class="step-row">
         <span class="step-num">2</span>
-        <span class="step-text">お困りごと・担当の方との関わりを4問</span>
+        <span class="step-text">担当の方との関わりを4問</span>
         <span class="step-badge">1分</span>
       </div>
       <div class="step-row">
@@ -176,24 +176,25 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q4: 不安なこと ===== -->
+  <!-- ===== Q4: 営業に助けられた経験 ===== -->
   <div class="slide" id="s4">
     <div class="q-number">Q4</div>
-    <div class="q-title">不動産をお持ちになるうえで、<br>不安なこと・気になることはありますか？</div>
+    <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
-    <div class="options" id="opts4"></div>
-    <div class="other-wrap" id="q4OtherWrap">
-      <input type="text" class="text-input" id="q4Other" placeholder="どんなことが気になりますか？" maxlength="200">
+    <div class="q-hint">
+      ここからは、<b>物件を購入された不動産会社の担当の方</b><br>
+      についてお伺いします
     </div>
+    <div class="options" id="opts4"></div>
     <button class="btn-next" id="next4" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q5: 営業に助けられた経験 ===== -->
+  <!-- ===== Q5: 連絡への評価 ===== -->
   <div class="slide" id="s5">
     <div class="q-number">Q5</div>
-    <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
-    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="q-title">担当の方からの連絡について、<br>率直にどう感じていますか？</div>
+    <div class="q-subtitle">連絡を受け取ること自体を、どう感じていますか</div>
     <div class="options" id="opts5"></div>
     <button class="btn-next" id="next5" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
@@ -334,31 +335,7 @@ const QUESTIONS = {
   ]},
   // 検証したい「どんな情報が欲しいか」。選択肢を見せる前に聞きたいので
   // 具体例（買い増し・ローン・売却）は並列に置き、特定の方向へ寄らないようにしている
-  // 区分ワンルームのメリットは インカム / キャピタル / 節税 の3つ。
-  // うちインカム（家賃が支出を下回る赤字）はワンルームでは稀なため設問から外し、
-  // 実際の関心である「いま物件価格がいくらか」をキャピタル軸として置く。
-  //
-  // 語尾はすべて「〜こと」に統一する（疑問形と名詞形の混在を避ける）。
-  // 1-2 が「把握できていないこと」、3-5 が「悪い方向へ変化すること」の2層。
-  q4_worry: { container:'opts4', next:'next4', multi:true, opts:[
-    // キャピタル（把握）
-    {text:'物件の価格がいくらになっているか分からないこと',
-                 label:'物件の価格が分からないこと', sub:'いまの資産価値・相場'},
-    // 節税（把握）
-    {text:'節税になっているのか分からないこと',
-                 label:'節税になっているか分からないこと', sub:'思っていたほど効果がない気がする'},
-    // 費用が上がる（変化）
-    {text:'修繕費・管理費や修繕積立金が上がること',
-                 label:'修繕費・管理費が上がること', sub:'大規模修繕や積立金の値上げ'},
-    {text:'金利が上がって返済額が増えること',
-                 label:'金利が上がって返済額が増えること', sub:'ローンの残高や完済時期'},
-    // 収入が下がる（変化）
-    {text:'空室や家賃の下落で収入が減ること',
-                 label:'空室や家賃下落で収入が減ること', sub:'次の入居者が決まるか'},
-    {text:'その他', isOther:true},
-    {text:'特に不安なことはない', exclusive:true}
-  ]},
-  q5_helped: { container:'opts5', next:'next5', multi:true, opts:[
+  q4_helped: { container:'opts4', next:'next4', multi:true, opts:[
     {text:'購入のときの相談（条件や資金計画）',
                  label:'購入のときの相談', sub:'条件や資金計画'},
     {text:'入居者や家賃のことでの対応',
@@ -370,6 +347,21 @@ const QUESTIONS = {
     {text:'相場や売却についての説明',
                  label:'相場・売却についての説明'},
     {text:'特に思い当たることはない', exclusive:true}
+  ]},
+  // ゴール①の前提。「どんな連絡がありがたいか」の前に
+  // 「そもそも連絡自体をありがたいと思っているか」を押さえる。
+  // Q4（具体的な経験）を先に置き、想起してから総合評価を出してもらう。
+  // 先に評価を聞くと、その回答に引きずられて Q4 の想起が歪む。
+  //
+  // 左右対称の5段階。中央を「どちらとも言えない」に置き、
+  // 肯定・否定のどちらにも誘導しない。
+  q5_feeling: { container:'opts5', next:'next5', opts:[
+    {text:'ありがたいので、これからも連絡がほしい',
+     label:'ありがたい', sub:'これからも連絡がほしい'},
+    {text:'内容によってはありがたい', label:'内容によってはありがたい'},
+    {text:'どちらとも言えない', label:'どちらとも言えない'},
+    {text:'あまり必要ないと感じる', label:'あまり必要ないと感じる'},
+    {text:'連絡は一切不要', label:'連絡は一切不要'}
   ]},
   // 年収と借入残高は「渡すか否か」ではなく「どの粒度なら渡せるか」を聞く。
   // 営業が欲しい理由は「新しくローンを組めるか」の判断（3者座組設計 §3.5）で、
@@ -483,7 +475,7 @@ function toggleMulti(key, q, wrap, btn, opt) {
   else answers[key] = answers[key].filter(v => v !== opt.text);
 
   // 「その他」が選ばれているときだけ自由記述を出す
-  const OTHER_FIELDS = { q2_type: ['q2OtherWrap','q2Other'], q4_worry: ['q4OtherWrap','q4Other'] };
+  const OTHER_FIELDS = { q2_type: ['q2OtherWrap','q2Other'] };
   if (OTHER_FIELDS[key]) {
     const [wrapId, inputId] = OTHER_FIELDS[key];
     const otherOn = !!wrap.querySelector('.opt-btn[data-is-other="1"].selected');
@@ -560,9 +552,8 @@ function submitSurvey() {
     q2_type:       (answers.q2_type || []).join(', '),
     q2_type_free:  (document.getElementById('q2Other').value || '').trim(),
     q3_method:     answers.q3_method || '',
-    q4_worry:      (answers.q4_worry || []).join(', '),
-    q4_worry_free: (document.getElementById('q4Other').value || '').trim(),
-    q5_helped:     (answers.q5_helped || []).join(', '),
+    q4_helped:     (answers.q4_helped || []).join(', '),
+    q5_feeling:    answers.q5_feeling || '',
     q6_income:     answers.q6_income || '',
     q7_loan:       answers.q7_loan || '',
     q8_interview:  answers.q8_interview || '',
