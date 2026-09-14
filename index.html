@@ -66,6 +66,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 .email-block{margin-top:18px}
 .email-label{font-size:.85rem;font-weight:700;margin-bottom:8px}
+.multi-note{background:#f6fbf8;border-color:#cdebda}
 .other-wrap{display:none;margin-top:10px}
 .other-wrap.show{display:block}
 .text-input{width:100%;padding:14px 16px;border:2px solid #e5e7eb;border-radius:var(--radius);font-size:1rem;font-family:inherit;background:#fff;transition:border-color .2s}
@@ -118,12 +119,12 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <div class="steps">
       <div class="step-row">
         <span class="step-num">1</span>
-        <span class="step-text">保有状況と申告方法を3問</span>
+        <span class="step-text">保有状況と申告方法を4問</span>
         <span class="step-badge">40秒</span>
       </div>
       <div class="step-row">
         <span class="step-num">2</span>
-        <span class="step-text">お困りごと・不動産会社との関わりを5問</span>
+        <span class="step-text">お困りごと・担当の方との関わりを4問</span>
         <span class="step-badge">1分</span>
       </div>
       <div class="step-row">
@@ -147,7 +148,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <div class="q-number">Q1</div>
     <div class="q-title">現在、賃貸用として<br>保有されている物件は何戸ですか？</div>
     <div class="q-subtitle">あてはまるもの1つ</div>
-    <div class="q-hint">💡 ご自身がお住まいの物件は除いてお答えください</div>
+    <div class="q-hint">ご自身がお住まいの物件は除いてお答えください</div>
     <div class="options" id="opts1"></div>
     <button class="btn-next" id="next1" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
@@ -176,26 +177,25 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q4: 判断に迷っていること ===== -->
+  <!-- ===== Q4: 購入した不動産会社の数 ===== -->
   <div class="slide" id="s4">
     <div class="q-number">Q4</div>
-    <div class="q-title">不動産をお持ちになるうえで、<br>不安なこと・気になることはありますか？</div>
-    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="q-title">物件を購入された不動産会社は<br>何社ですか？</div>
+    <div class="q-subtitle">最も近いもの1つ</div>
     <div class="options" id="opts4"></div>
-    <div class="other-wrap" id="q4OtherWrap">
-      <input type="text" class="text-input" id="q4Other" placeholder="どんなことが気になりますか？" maxlength="200">
-    </div>
     <button class="btn-next" id="next4" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q5: 連絡の頻度 ===== -->
+  <!-- ===== Q5: 不安なこと ===== -->
   <div class="slide" id="s5">
     <div class="q-number">Q5</div>
-    <div class="q-title">この1年間で、不動産会社から<br>どのくらい連絡がありましたか？</div>
-    <div class="q-subtitle">最も近いもの1つ</div>
-    <div class="q-hint">💡 購入された会社・管理を任せている会社のどちらも含みます</div>
+    <div class="q-title">不動産をお持ちになるうえで、<br>不安なこと・気になることはありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts5"></div>
+    <div class="other-wrap" id="q5OtherWrap">
+      <input type="text" class="text-input" id="q5Other" placeholder="どんなことが気になりますか？" maxlength="200">
+    </div>
     <button class="btn-next" id="next5" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
@@ -205,6 +205,9 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <div class="q-number">Q6</div>
     <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
+    <div class="q-hint multi-note" id="multiNote6" hidden>
+      ここから先は、<b>最も関わりの深い1社</b>についてお答えください
+    </div>
     <div class="options" id="opts6"></div>
     <button class="btn-next" id="next6" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
@@ -216,7 +219,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <div class="q-title">年収について、どの程度なら<br>お伝えしてもよいと思われますか？</div>
     <div class="q-subtitle">最も近いもの1つ・この場で決まるものではありません</div>
     <div class="q-hint">
-      💡 <b>あらかじめお伝えいただく形を検討しています</b><br>
+      <b>あらかじめお伝えいただく形を検討しています</b><br>
       <b>年1回・3月末ごろ</b>に年収をお伝えいただき、<br>
       ご自身に合った物件が出たときだけご紹介が届く仕組みです。<br>
       どの程度までなら差し支えないでしょうか。
@@ -232,7 +235,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <div class="q-title">ローンの借入残高について、<br>どの程度ならお伝えできますか？</div>
     <div class="q-subtitle">最も近いもの1つ・この場で決まるものではありません</div>
     <div class="q-hint">
-      💡 同じく<b>あらかじめお伝えいただく</b>形（年1回・3月末ごろ）<br>
+      同じく<b>あらかじめお伝えいただく</b>形（年1回・3月末ごろ）<br>
       としてお答えください
     </div>
     <div class="options" id="opts8"></div>
@@ -318,76 +321,78 @@ const CHANNEL    = (params.get('n') || '').trim() || CHANNELS[CHANNEL_ID] || CHA
 const QUESTIONS = {
   // 0戸と6戸以上を両端に置き、「多いほど/少ないほど通る」と読めないようにしている
   q1_units: { container:'opts1', next:'next1', opts:[
-    {emoji:'0️⃣', text:'0戸（現在は保有していない）', label:'保有していない'},
-    {emoji:'1️⃣', text:'1戸'},
-    {emoji:'2️⃣', text:'2戸'},
-    {emoji:'3️⃣', text:'3戸'},
-    {emoji:'4️⃣', text:'4〜5戸'},
-    {emoji:'🏢', text:'6戸以上'}
+    {text:'0戸（現在は保有していない）', label:'保有していない'},
+    {text:'1戸'},
+    {text:'2戸'},
+    {text:'3戸'},
+    {text:'4〜5戸'},
+    {text:'6戸以上'}
   ]},
   q2_type: { container:'opts2', next:'next2', multi:true, opts:[
-    {emoji:'🏬', text:'区分マンション（マンションの一室）',
+    {text:'区分マンション（マンションの一室）',
                  label:'区分マンション', sub:'マンションの一室'},
-    {emoji:'🏢', text:'一棟アパート・一棟マンション',
+    {text:'一棟アパート・一棟マンション',
                  label:'一棟アパート・マンション'},
-    {emoji:'🏡', text:'戸建て'},
-    {emoji:'🅿️', text:'土地・駐車場'},
-    {emoji:'📦', text:'その他', isOther:true}
+    {text:'戸建て'},
+    {text:'土地・駐車場'},
+    {text:'その他', isOther:true}
   ]},
   q3_method: { container:'opts3', next:'next3', opts:[
-    {emoji:'📱', text:'アプリ・会計ソフトで自分でした',
+    {text:'アプリ・会計ソフトで自分でした',
                  label:'アプリ・会計ソフトで自分でした', sub:'タックスナップ・freee・弥生 など'},
-    {emoji:'✍️', text:'手書き・国税庁サイトで自分でした',
+    {text:'手書き・国税庁サイトで自分でした',
                  label:'自分で作成した', sub:'手書き・国税庁サイト'},
-    {emoji:'👔', text:'税理士におまかせした'},
-    {emoji:'👨‍👩‍👦', text:'家族・知人にお願いした'},
-    {emoji:'🆕', text:'不動産所得の申告はしたことがない', label:'申告したことがない'}
+    {text:'税理士におまかせした'},
+    {text:'家族・知人にお願いした'},
+    {text:'不動産所得の申告はしたことがない', label:'申告したことがない'}
   ]},
   // 検証したい「どんな情報が欲しいか」。選択肢を見せる前に聞きたいので
   // 具体例（買い増し・ローン・売却）は並列に置き、特定の方向へ寄らないようにしている
+  // ゴール④「複数物件を所有しているオーナーは、どの会社に対しても肯定的か」を
+  // 測るための分類軸。これがないと、複数社から購入した人がどの会社を念頭に
+  // 答えたか分からず、Q6〜Q8 の回答が混ざる。
+  // 2社以上の方には以降を「最も関わりの深い1社」で答えていただく（Notion §4）。
+  q4_companies: { container:'opts4', next:'next4', opts:[
+    {text:'1社'},
+    {text:'2社'},
+    {text:'3社以上'}
+  ]},
   // 区分ワンルームのメリットは インカム / キャピタル / 節税 の3つ。
   // うちインカム（家賃が支出を下回る赤字）はワンルームでは稀なため設問から外し、
   // 実際の関心である「いま物件価格がいくらか」をキャピタル軸として置く。
   //
   // 語尾はすべて「〜こと」に統一する（疑問形と名詞形の混在を避ける）。
   // 1-2 が「把握できていないこと」、3-5 が「悪い方向へ変化すること」の2層。
-  q4_worry: { container:'opts4', next:'next4', multi:true, opts:[
+  q5_worry: { container:'opts5', next:'next5', multi:true, opts:[
     // キャピタル（把握）
-    {emoji:'🏘️', text:'物件の価格がいくらになっているか分からないこと',
+    {text:'物件の価格がいくらになっているか分からないこと',
                  label:'物件の価格が分からないこと', sub:'いまの資産価値・相場'},
     // 節税（把握）
-    {emoji:'🧾', text:'節税になっているのか分からないこと',
+    {text:'節税になっているのか分からないこと',
                  label:'節税になっているか分からないこと', sub:'思っていたほど効果がない気がする'},
     // 費用が上がる（変化）
-    {emoji:'🔧', text:'修繕費・管理費や修繕積立金が上がること',
+    {text:'修繕費・管理費や修繕積立金が上がること',
                  label:'修繕費・管理費が上がること', sub:'大規模修繕や積立金の値上げ'},
-    {emoji:'🏦', text:'金利が上がって返済額が増えること',
+    {text:'金利が上がって返済額が増えること',
                  label:'金利が上がって返済額が増えること', sub:'ローンの残高や完済時期'},
     // 収入が下がる（変化）
-    {emoji:'🚪', text:'空室や家賃の下落で収入が減ること',
+    {text:'空室や家賃の下落で収入が減ること',
                  label:'空室や家賃下落で収入が減ること', sub:'次の入居者が決まるか'},
-    {emoji:'✏️', text:'その他', isOther:true},
-    {emoji:'🙆', text:'特に不安なことはない', exclusive:true}
-  ]},
-  q5_freq: { container:'opts5', next:'next5', opts:[
-    {emoji:'📞', text:'月に1回くらい', label:'月に1回くらい', sub:'またはそれ以上'},
-    {emoji:'📆', text:'数ヶ月に1回くらい', label:'数ヶ月に1回くらい'},
-    {emoji:'🗓️', text:'年に1回くらい', label:'年に1回くらい'},
-    {emoji:'💤', text:'ほとんど来ない', label:'ほとんど来ない'},
-    {emoji:'🚫', text:'まったく来ない', label:'まったく来ない'}
+    {text:'その他', isOther:true},
+    {text:'特に不安なことはない', exclusive:true}
   ]},
   q6_helped: { container:'opts6', next:'next6', multi:true, opts:[
-    {emoji:'🏠', text:'購入のときの相談（条件や資金計画）',
+    {text:'購入のときの相談（条件や資金計画）',
                  label:'購入のときの相談', sub:'条件や資金計画'},
-    {emoji:'🚪', text:'入居者や家賃のことでの対応',
+    {text:'入居者や家賃のことでの対応',
                  label:'入居者・家賃のことでの対応'},
-    {emoji:'🔧', text:'修繕や設備のことでの相談',
+    {text:'修繕や設備のことでの相談',
                  label:'修繕・設備のことでの相談'},
-    {emoji:'🧾', text:'確定申告についての説明',
+    {text:'確定申告についての説明',
                  label:'確定申告についての説明'},
-    {emoji:'🏘️', text:'相場や売却についての説明',
+    {text:'相場や売却についての説明',
                  label:'相場・売却についての説明'},
-    {emoji:'🤔', text:'特に思い当たることはない', exclusive:true}
+    {text:'特に思い当たることはない', exclusive:true}
   ]},
   // 年収と借入残高は「渡すか否か」ではなく「どの粒度なら渡せるか」を聞く。
   // 営業が欲しい理由は「新しくローンを組めるか」の判断（3者座組設計 §3.5）で、
@@ -420,8 +425,8 @@ const QUESTIONS = {
     {text:'借入残高は伝えたくない', label:'伝えたくない'}
   ]},
   q9_interview: { container:'opts9', next:'next9', opts:[
-    {emoji:'🙆', text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
-    {emoji:'🙅', text:'協力は難しい', label:'今回は難しい'}
+    {text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
+    {text:'協力は難しい', label:'今回は難しい'}
   ]}
 };
 
@@ -465,6 +470,12 @@ function selectSingle(key, q, wrap, btn, opt) {
   btn.setAttribute('aria-pressed', 'true');
   answers[key] = opt.text;
 
+  // 2社以上から購入した方には、以降を「最も関わりの深い1社」で答えていただく。
+  // どの会社を念頭に答えたか分からないと Q6〜Q8 の回答が混ざるため（ゴール④）。
+  if (key === 'q4_companies') {
+    document.getElementById('multiNote6').hidden = (opt.text === '1社');
+  }
+
   // メール欄は常に出す（ギフト券の送付に必要なため）。
   // 取材に協力いただける方は、日程連絡にも使う旨を添える。
   if (key === 'q9_interview') {
@@ -501,7 +512,7 @@ function toggleMulti(key, q, wrap, btn, opt) {
   else answers[key] = answers[key].filter(v => v !== opt.text);
 
   // 「その他」が選ばれているときだけ自由記述を出す
-  const OTHER_FIELDS = { q2_type: ['q2OtherWrap','q2Other'], q4_worry: ['q4OtherWrap','q4Other'] };
+  const OTHER_FIELDS = { q2_type: ['q2OtherWrap','q2Other'], q5_worry: ['q5OtherWrap','q5Other'] };
   if (OTHER_FIELDS[key]) {
     const [wrapId, inputId] = OTHER_FIELDS[key];
     const otherOn = !!wrap.querySelector('.opt-btn[data-is-other="1"].selected');
@@ -578,9 +589,9 @@ function submitSurvey() {
     q2_type:       (answers.q2_type || []).join(', '),
     q2_type_free:  (document.getElementById('q2Other').value || '').trim(),
     q3_method:     answers.q3_method || '',
-    q4_worry:      (answers.q4_worry || []).join(', '),
-    q4_worry_free: (document.getElementById('q4Other').value || '').trim(),
-    q5_freq:       answers.q5_freq || '',
+    q4_companies:  answers.q4_companies || '',
+    q5_worry:      (answers.q5_worry || []).join(', '),
+    q5_worry_free: (document.getElementById('q5Other').value || '').trim(),
     q6_helped:     (answers.q6_helped || []).join(', '),
     q7_income:     answers.q7_income || '',
     q8_loan:       answers.q8_loan || '',
