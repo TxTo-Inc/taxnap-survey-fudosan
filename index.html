@@ -66,7 +66,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
 .email-block{margin-top:18px}
 .email-label{font-size:.85rem;font-weight:700;margin-bottom:8px}
-.multi-note{background:#f6fbf8;border-color:#cdebda}
 .other-wrap{display:none;margin-top:10px}
 .other-wrap.show{display:block}
 .text-input{width:100%;padding:14px 16px;border:2px solid #e5e7eb;border-radius:var(--radius);font-size:1rem;font-family:inherit;background:#fff;transition:border-color .2s}
@@ -113,13 +112,13 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       <div class="intro-emoji">🏠</div>
       <div class="intro-bubble">オーナーの皆さまへ</div>
       <h1 class="intro-headline">不動産をお持ちの方への<br>アンケート</h1>
-      <p class="intro-sub">かんたん8問・約3分<br>今後の機能づくりの参考にさせてください</p>
+      <p class="intro-sub">かんたん7問・約2分<br>今後の機能づくりの参考にさせてください</p>
     </div>
 
     <div class="steps">
       <div class="step-row">
         <span class="step-num">1</span>
-        <span class="step-text">保有状況と申告方法を4問</span>
+        <span class="step-text">保有状況と申告方法を3問</span>
         <span class="step-badge">40秒</span>
       </div>
       <div class="step-row">
@@ -177,45 +176,32 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q4: 購入した不動産会社の数 ===== -->
+  <!-- ===== Q4: 不安なこと ===== -->
   <div class="slide" id="s4">
     <div class="q-number">Q4</div>
-    <div class="q-title">物件を購入された不動産会社は<br>何社ですか？</div>
-    <div class="q-subtitle">最も近いもの1つ</div>
+    <div class="q-title">不動産をお持ちになるうえで、<br>不安なこと・気になることはありますか？</div>
+    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts4"></div>
+    <div class="other-wrap" id="q4OtherWrap">
+      <input type="text" class="text-input" id="q4Other" placeholder="どんなことが気になりますか？" maxlength="200">
+    </div>
     <button class="btn-next" id="next4" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q5: 不安なこと ===== -->
+  <!-- ===== Q5: 営業に助けられた経験 ===== -->
   <div class="slide" id="s5">
     <div class="q-number">Q5</div>
-    <div class="q-title">不動産をお持ちになるうえで、<br>不安なこと・気になることはありますか？</div>
+    <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts5"></div>
-    <div class="other-wrap" id="q5OtherWrap">
-      <input type="text" class="text-input" id="q5Other" placeholder="どんなことが気になりますか？" maxlength="200">
-    </div>
     <button class="btn-next" id="next5" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q6: 営業に助けられた経験 ===== -->
+  <!-- ===== Q6: 年収の連携粒度 ===== -->
   <div class="slide" id="s6">
     <div class="q-number">Q6</div>
-    <div class="q-title">担当の方がいて助かったと<br>感じたことはありますか？</div>
-    <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
-    <div class="q-hint multi-note" id="multiNote6" hidden>
-      ここから先は、<b>最も関わりの深い1社</b>についてお答えください
-    </div>
-    <div class="options" id="opts6"></div>
-    <button class="btn-next" id="next6" disabled onclick="goNext()">次へ →</button>
-    <button class="btn-back" onclick="goBack()">← 戻る</button>
-  </div>
-
-  <!-- ===== Q7: 年収の連携粒度 ===== -->
-  <div class="slide" id="s7">
-    <div class="q-number">Q7</div>
     <div class="q-title">年収について、どの程度なら<br>お伝えしてもよいと思われますか？</div>
     <div class="q-subtitle">最も近いもの1つ・この場で決まるものではありません</div>
     <div class="q-hint">
@@ -224,27 +210,27 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       ご自身に合った物件が出たときだけご紹介が届く仕組みです。<br>
       どの程度までなら差し支えないでしょうか。
     </div>
-    <div class="options" id="opts7"></div>
-    <button class="btn-next" id="next7" disabled onclick="goNext()">次へ →</button>
+    <div class="options" id="opts6"></div>
+    <button class="btn-next" id="next6" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
-  <!-- ===== Q8: 借入残高の連携粒度 ===== -->
-  <div class="slide" id="s8">
-    <div class="q-number">Q8</div>
+  <!-- ===== Q7: 借入残高の連携粒度 ===== -->
+  <div class="slide" id="s7">
+    <div class="q-number">Q7</div>
     <div class="q-title">ローンの借入残高について、<br>どの程度ならお伝えできますか？</div>
     <div class="q-subtitle">最も近いもの1つ・この場で決まるものではありません</div>
     <div class="q-hint">
       同じく<b>あらかじめお伝えいただく</b>形（年1回・3月末ごろ）<br>
       としてお答えください
     </div>
-    <div class="options" id="opts8"></div>
-    <button class="btn-next" id="next8" disabled onclick="goNext()">次へ →</button>
+    <div class="options" id="opts7"></div>
+    <button class="btn-next" id="next7" disabled onclick="goNext()">次へ →</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
   <!-- ===== 取材協力可否 ===== -->
-  <div class="slide" id="s9">
+  <div class="slide" id="s8">
     <div class="q-number">最後に</div>
     <div class="q-title">30分のオンライン取材に<br>ご協力いただけませんか？</div>
     <div class="q-subtitle">あてはまるもの1つ</div>
@@ -254,18 +240,18 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
       💻 オンラインで30分／事前のご準備は不要です<br>
       🙅 不動産や金融商品のご案内は一切ございません
     </div>
-    <div class="options" id="opts9"></div>
+    <div class="options" id="opts8"></div>
     <div class="email-block">
       <div class="email-label" id="emailLabel">🎁 ギフト券の送付先メールアドレス</div>
       <input type="email" class="text-input" id="email" placeholder="example@mail.com" autocomplete="email">
       <div class="error-msg" id="emailErr">メールアドレスをご確認ください</div>
     </div>
-    <button class="btn-next" id="next9" disabled onclick="submitSurvey()">回答を送信する</button>
+    <button class="btn-next" id="next8" disabled onclick="submitSurvey()">回答を送信する</button>
     <button class="btn-back" onclick="goBack()">← 戻る</button>
   </div>
 
   <!-- ===== 完了 ===== -->
-  <div class="slide" id="s10">
+  <div class="slide" id="s9">
     <div class="done-card">
       <div class="done-emoji">🎉</div>
       <div class="done-title">ありがとうございました！</div>
@@ -348,22 +334,13 @@ const QUESTIONS = {
   ]},
   // 検証したい「どんな情報が欲しいか」。選択肢を見せる前に聞きたいので
   // 具体例（買い増し・ローン・売却）は並列に置き、特定の方向へ寄らないようにしている
-  // ゴール④「複数物件を所有しているオーナーは、どの会社に対しても肯定的か」を
-  // 測るための分類軸。これがないと、複数社から購入した人がどの会社を念頭に
-  // 答えたか分からず、Q6〜Q8 の回答が混ざる。
-  // 2社以上の方には以降を「最も関わりの深い1社」で答えていただく（Notion §4）。
-  q4_companies: { container:'opts4', next:'next4', opts:[
-    {text:'1社'},
-    {text:'2社'},
-    {text:'3社以上'}
-  ]},
   // 区分ワンルームのメリットは インカム / キャピタル / 節税 の3つ。
   // うちインカム（家賃が支出を下回る赤字）はワンルームでは稀なため設問から外し、
   // 実際の関心である「いま物件価格がいくらか」をキャピタル軸として置く。
   //
   // 語尾はすべて「〜こと」に統一する（疑問形と名詞形の混在を避ける）。
   // 1-2 が「把握できていないこと」、3-5 が「悪い方向へ変化すること」の2層。
-  q5_worry: { container:'opts5', next:'next5', multi:true, opts:[
+  q4_worry: { container:'opts4', next:'next4', multi:true, opts:[
     // キャピタル（把握）
     {text:'物件の価格がいくらになっているか分からないこと',
                  label:'物件の価格が分からないこと', sub:'いまの資産価値・相場'},
@@ -381,7 +358,7 @@ const QUESTIONS = {
     {text:'その他', isOther:true},
     {text:'特に不安なことはない', exclusive:true}
   ]},
-  q6_helped: { container:'opts6', next:'next6', multi:true, opts:[
+  q5_helped: { container:'opts5', next:'next5', multi:true, opts:[
     {text:'購入のときの相談（条件や資金計画）',
                  label:'購入のときの相談', sub:'条件や資金計画'},
     {text:'入居者や家賃のことでの対応',
@@ -402,7 +379,7 @@ const QUESTIONS = {
   // 年収と借入残高は許容度が違う可能性があるため別々に聞く
   // （社内設計では年収=常に非開示／借入残高=レンジで任意オプトイン と分けている）。
   // 段階は 具体値 > 幅 > 変動の有無 > 聞かれたときだけ > 伝えない の5択。
-  q7_income: { container:'opts7', next:'next7', opts:[
+  q6_income: { container:'opts6', next:'next6', opts:[
     {text:'具体的な金額まで伝えてよい',
                  label:'具体的な金額まで', sub:'例: 780万円'},
     {text:'おおよその幅なら伝えてよい',
@@ -413,7 +390,7 @@ const QUESTIONS = {
                  label:'聞かれたときに自分から', sub:'自動では伝えない'},
     {text:'年収は伝えたくない', label:'伝えたくない'}
   ]},
-  q8_loan: { container:'opts8', next:'next8', opts:[
+  q7_loan: { container:'opts7', next:'next7', opts:[
     {text:'具体的な金額まで伝えてよい',
                  label:'具体的な金額まで', sub:'例: 1,850万円'},
     {text:'おおよその幅なら伝えてよい',
@@ -424,13 +401,13 @@ const QUESTIONS = {
                  label:'聞かれたときに自分から', sub:'自動では伝えない'},
     {text:'借入残高は伝えたくない', label:'伝えたくない'}
   ]},
-  q9_interview: { container:'opts9', next:'next9', opts:[
+  q8_interview: { container:'opts8', next:'next8', opts:[
     {text:'協力できる', label:'協力できる', sub:'メールアドレスをご入力ください'},
     {text:'協力は難しい', label:'今回は難しい'}
   ]}
 };
 
-const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
+const ALL_STEPS = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
 const answers = {};
 const history = [];
 let current = 's0';
@@ -470,15 +447,9 @@ function selectSingle(key, q, wrap, btn, opt) {
   btn.setAttribute('aria-pressed', 'true');
   answers[key] = opt.text;
 
-  // 2社以上から購入した方には、以降を「最も関わりの深い1社」で答えていただく。
-  // どの会社を念頭に答えたか分からないと Q6〜Q8 の回答が混ざるため（ゴール④）。
-  if (key === 'q4_companies') {
-    document.getElementById('multiNote6').hidden = (opt.text === '1社');
-  }
-
   // メール欄は常に出す（ギフト券の送付に必要なため）。
   // 取材に協力いただける方は、日程連絡にも使う旨を添える。
-  if (key === 'q9_interview') {
+  if (key === 'q8_interview') {
     document.getElementById('emailLabel').innerHTML =
       (opt.text === '協力できる')
         ? '🎁 ギフト券の送付先・日程のご連絡先'
@@ -512,7 +483,7 @@ function toggleMulti(key, q, wrap, btn, opt) {
   else answers[key] = answers[key].filter(v => v !== opt.text);
 
   // 「その他」が選ばれているときだけ自由記述を出す
-  const OTHER_FIELDS = { q2_type: ['q2OtherWrap','q2Other'], q5_worry: ['q5OtherWrap','q5Other'] };
+  const OTHER_FIELDS = { q2_type: ['q2OtherWrap','q2Other'], q4_worry: ['q4OtherWrap','q4Other'] };
   if (OTHER_FIELDS[key]) {
     const [wrapId, inputId] = OTHER_FIELDS[key];
     const otherOn = !!wrap.querySelector('.opt-btn[data-is-other="1"].selected');
@@ -549,12 +520,12 @@ function goBack() {
 function updateProgress() {
   const fill = document.getElementById('progressFill');
   const text = document.getElementById('progressText');
-  if (current === 's0' || current === 's10') {
-    fill.style.width = (current === 's10' ? 100 : 0) + '%';
+  if (current === 's0' || current === 's9') {
+    fill.style.width = (current === 's9' ? 100 : 0) + '%';
     text.textContent = '';
     return;
   }
-  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's10');
+  const qSteps = ALL_STEPS.filter(id => id !== 's0' && id !== 's9');
   const done = qSteps.indexOf(current) + 1;
   fill.style.width = (done / qSteps.length * 100) + '%';
   text.textContent = `${done} / ${qSteps.length}`;
@@ -566,7 +537,7 @@ function isValidEmail(v) {
 }
 
 function submitSurvey() {
-  const wantsInterview = (answers.q9_interview === '協力できる');
+  const wantsInterview = (answers.q8_interview === '協力できる');
   const emailEl = document.getElementById('email');
   const email = (emailEl.value || '').trim();
 
@@ -589,13 +560,12 @@ function submitSurvey() {
     q2_type:       (answers.q2_type || []).join(', '),
     q2_type_free:  (document.getElementById('q2Other').value || '').trim(),
     q3_method:     answers.q3_method || '',
-    q4_companies:  answers.q4_companies || '',
-    q5_worry:      (answers.q5_worry || []).join(', '),
-    q5_worry_free: (document.getElementById('q5Other').value || '').trim(),
-    q6_helped:     (answers.q6_helped || []).join(', '),
-    q7_income:     answers.q7_income || '',
-    q8_loan:       answers.q8_loan || '',
-    q9_interview:  answers.q9_interview || '',
+    q4_worry:      (answers.q4_worry || []).join(', '),
+    q4_worry_free: (document.getElementById('q4Other').value || '').trim(),
+    q5_helped:     (answers.q5_helped || []).join(', '),
+    q6_income:     answers.q6_income || '',
+    q7_loan:       answers.q7_loan || '',
+    q8_interview:  answers.q8_interview || '',
     user_agent: navigator.userAgent
   };
 
@@ -613,7 +583,7 @@ function submitSurvey() {
 
   // 送信可否にかかわらず完了画面へ進める（回答者を止めない）
   document.getElementById('interviewNote').style.display = wantsInterview ? '' : 'none';
-  showSlide('s10');
+  showSlide('s9');
 }
 
 /* ===== 初期化 ===== */
