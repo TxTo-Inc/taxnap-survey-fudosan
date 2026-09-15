@@ -350,15 +350,14 @@ const CHANNEL    = (params.get('n') || '').trim() || CHANNELS[CHANNEL_ID] || CHA
    text は集計キー。表示は label / sub で調整する（tedori と同じ作法）。
    ============================================================ */
 const QUESTIONS = {
-  // 0戸と6戸以上を両端に置き、「多いほど/少ないほど通る」と読めないようにしている
+  // 0戸と5戸以上を両端に置き、「多いほど/少ないほど通る」と読めないようにしている
   q1_units: { container:'opts1', next:'next1', opts:[
     {emoji:'0️⃣', text:'0戸（現在は保有していない）', label:'保有していない'},
     {emoji:'1️⃣', text:'1戸'},
     {emoji:'2️⃣', text:'2戸'},
     {emoji:'3️⃣', text:'3戸'},
     {emoji:'4️⃣', text:'4戸'},
-    {emoji:'5️⃣', text:'5戸'},
-    {emoji:'6️⃣', text:'6戸以上'}
+    {emoji:'5️⃣', text:'5戸以上'}
   ]},
   q2_type: { container:'opts2', next:'next2', multi:true, opts:[
     {emoji:'🏬', text:'区分マンション（マンションの一室）',
