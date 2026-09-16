@@ -49,9 +49,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
    タイトルと同じ大きさ・太さにして一続きの文として読ませる */
 .q-subtitle.is-question{font-size:1.15rem;font-weight:700;color:var(--text);line-height:1.6}
 .q-hint{font-size:.78rem;color:var(--text-sub);line-height:1.7;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;margin-bottom:16px;word-break:auto-phrase}
-/* 話題の転換を示すセクション見出し。設問より前に置く。
-   誰について答えるのかを決める前提なので、設問タイトルに近い大きさで読ませる */
-.q-hint.section-note{background:var(--brand-light);border-color:#cdebda;margin-bottom:16px;color:var(--text);font-size:1rem;line-height:1.75;padding:14px 16px;word-break:auto-phrase}
 
 .options{display:flex;flex-direction:column;gap:10px}
 .opt-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 18px;border:2px solid #e5e7eb;border-radius:var(--radius);background:#fff;font-size:.95rem;font-family:inherit;color:var(--text);cursor:pointer;transition:all .15s}
@@ -170,10 +167,7 @@ textarea.text-input{min-height:96px;line-height:1.7;resize:vertical}
   <!-- ===== Q3: 購入後にもらって嬉しかった連絡 ===== -->
   <div class="slide" id="s3">
     <div class="q-number">Q3</div>
-    <div class="q-hint section-note">
-      <b>物件を購入された不動産会社の担当の方</b>についてお伺いします
-    </div>
-    <div class="q-title">ご購入後に担当の方からもらって<br>嬉しかった連絡はありますか？</div>
+    <div class="q-title">物件購入後に、担当の方からもらって<br>ありがたかった連絡はありますか？</div>
     <div class="q-subtitle">あてはまるものすべて（複数選択可）</div>
     <div class="options" id="opts3"></div>
     <div class="other-wrap" id="q3OtherWrap">
