@@ -45,8 +45,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .q-number{font-size:.8rem;font-weight:700;color:var(--brand);margin-bottom:6px}
 .q-title{font-size:1.15rem;font-weight:700;line-height:1.6;margin-bottom:6px;word-break:auto-phrase}
 .q-subtitle{font-size:.8rem;color:var(--text-sub);margin-bottom:20px;word-break:auto-phrase}
-/* 設問文そのものを置くケース（Q6・Q7）。補助的な指示ではないので黒字にする */
-.q-subtitle.is-question{font-size:.95rem;color:var(--text);line-height:1.6}
+/* 設問文そのものを置くケース（Q8・Q9）。補助的な指示ではなく問いの続きなので、
+   タイトルと同じ大きさ・太さにして一続きの文として読ませる */
+.q-subtitle.is-question{font-size:1.15rem;font-weight:700;color:var(--text);line-height:1.6}
 .q-hint{font-size:.78rem;color:var(--text-sub);line-height:1.7;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;margin-bottom:16px;word-break:auto-phrase}
 /* 話題の転換を示すセクション見出し。設問より前に置く */
 .q-hint.section-note{background:var(--brand-light);border-color:#cdebda;margin-bottom:14px;color:var(--text);font-size:.85rem}
@@ -408,9 +409,6 @@ const QUESTIONS = {
     {text:'SUUMO', label:'SUUMO'},
     {text:'at home', label:'at home'},
     {text:'不動産会社の担当からの紹介', label:'担当営業からの紹介'},
-    {text:'不動産会社の自社サイト', label:'不動産会社の自社サイト'},
-    {text:'SNS・YouTube', label:'SNS・YouTube'},
-    {text:'知人・オーナー仲間', label:'知人・オーナー仲間'},
     {text:'特にない', exclusive:true},
     {text:'その他', isOther:true}
   ]},
