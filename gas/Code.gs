@@ -29,7 +29,7 @@ var COLUMNS = [
   { key: 'q1_units',     label: 'Q1 保有戸数' },
   { key: 'q2_type',      label: 'Q2 物件種別(複数)' },
   { key: 'q2_type_free', label: 'Q2 その他(自由記述)' },
-  { key: 'q3_glad',         label: 'Q3 嬉しかった連絡(複数)' },
+  { key: 'q3_glad',         label: 'Q3 ありがたかった連絡(複数)' },
   { key: 'q3_glad_free',    label: 'Q3 その他(自由記述)' },
   { key: 'q4_intent',       label: 'Q4 買い増し意向' },
   { key: 'q5_research',     label: 'Q5 情報収集の頻度' },
